@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie · Laurent & Mélissa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Italiana&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="gallery-page">
+
+    <!-- ===== NAV MINI ===== -->
+    <header class="nav nav-slim nav-scrolled" id="siteNav">
+        <a href="index.html" class="nav-brand">← L &amp; M</a>
+        <a href="index.html" class="nav-gallery-link">← Retour au site</a>
+    </header>
+
+    <main class="gallery-main">
+        <!-- ===== GALERIE ===== -->
+        <section class="gallery-section gallery-hero">
+            <div class="container">
+                <p class="section-kicker reveal">Galerie Souvenirs</p>
+                <h1 class="section-title reveal" style="font-size:clamp(32px,5vw,56px)">Nos plus beaux moments</h1>
+                <p class="gallery-intro reveal">Après le mariage, cette galerie se remplira des photos de notre grand jour. Partagez les vôtres via le QR code !</p>
+
+                <div class="gallery-actions reveal">
+                    <button class="btn btn-gold" id="uploadBtn">📷 Partager mes photos</button>
+                    <div class="qr-box" id="qrBox">
+                        <p class="qr-title">Scannez pour partager</p>
+                        <div class="qr-placeholder" id="qrCanvas">QR</div>
+                    </div>
+                </div>
+
+                <div class="gallery-filter reveal">
+                    <button class="gfilter active" data-f="all">Toutes</button>
+                    <button class="gfilter" data-f="fiances">Les Fiançailles</button>
+                    <button class="gfilter" data-f="voyage">Voyages</button>
+                    <button class="gfilter" data-f="mariage">Le Mariage</button>
+                </div>
+
+                <div class="gallery-grid gallery-grid-full" id="galleryGrid">
+                    <div class="gallery-empty" id="galleryEmpty">
+                        <p>Les photos du mariage arriveront bientôt…</p>
+                    </div>
+                </div>
+
+                <!-- Lightbox -->
+                <div class="lightbox" id="lightbox">
+                    <button class="lb-close" id="lbClose">&times;</button>
+                    <button class="lb-prev" id="lbPrev">&#10094;</button>
+                    <img id="lbImg" src="" alt="Photo agrandie">
+                    <button class="lb-next" id="lbNext">&#10095;</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-names">Laurent &amp; Mélissa</p>
+            <p class="footer-date">14 · 06 · 2026</p>
+            <p class="footer-hashtag">#LaurentEtMélissa</p>
+            <p class="footer-credit">Avec tout notre amour</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/gallery.js"></script>
+</body>
+</html>

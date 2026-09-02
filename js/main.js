@@ -93,100 +93,6 @@
         setInterval(updateCountdown, 1000);
     }
 
-    /* ===== GALLERY ===== */
-    const galleryData = {
-        'fiances': [
-            { f: 'assets/images/placeholder1.jpg', alt: 'Fiançailles 1' },
-            { f: 'assets/images/placeholder2.jpg', alt: 'Fiançailles 2' }
-        ],
-        'voyage': [
-            { f: 'assets/images/placeholder3.jpg', alt: 'Voyage 1' },
-            { f: 'assets/images/placeholder4.jpg', alt: 'Voyage 2' }
-        ],
-        'mariage': [
-            { f: 'assets/images/placeholder5.jpg', alt: 'Mariage 1' },
-            { f: 'assets/images/placeholder6.jpg', alt: 'Mariage 2' }
-        ]
-    };
-
-    // ===== GALLERY RENDER + FILTER =====
-    const galleryGrid = $('#galleryGrid');
-    const galleryEmpty = $('#galleryEmpty');
-    let currentFilter = 'all';
-
-    function renderGallery(filter) {
-        galleryGrid.innerHTML = '';
-        const tiles = [];
-        Object.keys(galleryData).forEach(cat => {
-            galleryData[cat].forEach(img => {
-                tiles.push({ cat, ...img });
-            });
-        });
-        const filtered = filter === 'all' ? tiles : tiles.filter(t => t.cat === filter);
-
-        if (!filtered.length) {
-            galleryEmpty.style.display = 'block';
-            return;
-        }
-        galleryEmpty.style.display = 'none';
-        filtered.forEach(t => {
-            const tile = document.createElement('div');
-            tile.className = 'gallery-tile';
-            tile.dataset.cat = t.cat;
-            tile.innerHTML = `<img src="${t.f}" alt="${t.alt}" loading="lazy">`;
-            tile.addEventListener('click', () => openLightbox(tile.querySelector('img')));
-            galleryGrid.appendChild(tile);
-        });
-    }
-
-    $$('.gfilter').forEach(btn => {
-        btn.addEventListener('click', () => {
-            $$('.gfilter').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.f;
-            renderGallery(currentFilter);
-        });
-    });
-
-    // ===== GALLERY LIGHTBOX =====
-    const lightbox = $('#lightbox');
-    const lbImg = $('#lbImg');
-    let currentTile = null;
-    let galleryImages = [];
-
-    function openLightbox(img) {
-        lbImg.src = img.src;
-        galleryImages = $$('#galleryGrid img');
-        currentTile = galleryImages.indexOf(img);
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeLightbox() {
-        lightbox.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-    function navLightbox(dir) {
-        if (!galleryImages.length) return;
-        currentTile = (currentTile + dir + galleryImages.length) % galleryImages.length;
-        lbImg.src = galleryImages[currentTile].src;
-    }
-
-    $('#lbClose').addEventListener('click', closeLightbox);
-    $('#lbPrev').addEventListener('click', () => navLightbox(-1));
-    $('#lbNext').addEventListener('click', () => navLightbox(1));
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('open')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') navLightbox(-1);
-        if (e.key === 'ArrowRight') navLightbox(1);
-    });
-
-    /* ===== UPLOAD BTN (placeformulaire) ===== */
-    $('#uploadBtn').addEventListener('click', () => {
-        alert('Le partage de photos sera bientôt disponible. Merci de scanner le QR code à la réception le jour du mariage !');
-    });
-
     /* ===== RSVP ===== */
     const rsvpForm = $('#rsvpForm');
     const rsvpMsg = $('#rsvpMsg');
@@ -196,9 +102,6 @@
         rsvpMsg.classList.add('ok');
         rsvpForm.reset();
     });
-
-    /* ===== INIT GALLERY ===== */
-    renderGallery('all');
 
     /* ═══════════════════════════════════════════════════
        GSAP SCROLL ANIMATIONS — IMMERSION
@@ -289,32 +192,6 @@
             start: 'top 60%',
             onEnter: () => nav.classList.add('scrolled'),
             onLeaveBack: () => nav.classList.remove('scrolled')
-        });
-
-        /* --- SMOOTH SCROLL NAV --- */
-        $$('.nav-links a, .mobile-menu a, .hero-cta a').forEach(a => {
-            a.addEventListener('click', (e) => {
-                const href = a.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    e.preventDefault();
-                    gsap.to(window, { scrollTo: { y: href, offsetY: 60 }, duration: 1, ease: 'power3.inOut' });
-                    mobileMenu.classList.remove('open');
-                    navToggle.classList.remove('active');
-                }
-            });
-        });
-
-        /* --- SECTION COLOR TRANSITIONS (immersive) --- */
-        $$('.section-pad').forEach(sec => {
-            ScrollTrigger.create({
-                trigger: sec,
-                start: 'top 60%',
-                end: 'bottom 40%',
-                onEnter: () => sec.classList.add('sec-active'),
-                onLeave: () => sec.classList.remove('sec-active'),
-                onEnterBack: () => sec.classList.add('sec-active'),
-                onLeaveBack: () => sec.classList.remove('sec-active')
-            });
         });
 
     } // end GSAP

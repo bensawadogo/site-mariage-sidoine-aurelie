@@ -31,30 +31,11 @@
         </div>
     </div>
 
-    <!-- ===== NAV ===== -->
-    <header class="nav" id="siteNav">
+    <!-- ===== NAV (mini, uniquement pour Galerie) ===== -->
+    <header class="nav nav-slim" id="siteNav">
         <a href="#accueil" class="nav-brand">L &amp; M</a>
-        <nav class="nav-links">
-            <a href="#accueil">Accueil</a>
-            <a href="#histoire">Notre Histoire</a>
-            <a href="#programme">Programme</a>
-            <a href="#lieu">Lieu</a>
-            <a href="#galerie">Galerie</a>
-            <a href="#rsvp">RSVP</a>
-        </nav>
-        <button class="nav-toggle" id="navToggle" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
+        <a href="galerie.html" class="nav-gallery-link">Voir la galerie →</a>
     </header>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#accueil">Accueil</a>
-        <a href="#histoire">Notre Histoire</a>
-        <a href="#programme">Programme</a>
-        <a href="#lieu">Lieu</a>
-        <a href="#galerie">Galerie</a>
-        <a href="#rsvp">RSVP</a>
-    </div>
 
     <main>
         <!-- ===== HERO ===== -->
@@ -73,7 +54,7 @@
                 <p class="hero-sub reveal">Nous avons hâte de partager ce grand jour avec vous</p>
                 <div class="hero-cta reveal">
                     <a href="#rsvp" class="btn btn-gold">Confirmer ma présence</a>
-                    <a href="#galerie" class="btn btn-ghost">Voir la galerie</a>
+                    <a href="galerie.html" class="btn btn-ghost">Voir la galerie</a>
                 </div>
             </div>
             <div class="hero-scroll" aria-hidden="true"><span></span></div>
@@ -195,45 +176,6 @@
             </div>
         </section>
 
-        <!-- ===== GALERIE ===== -->
-        <section class="gallery-section section-pad" id="galerie">
-            <div class="container">
-                <p class="section-kicker reveal">Galerie Souvenirs</p>
-                <h2 class="section-title reveal">Nos plus beaux moments</h2>
-                <p class="gallery-intro reveal">Après le mariage, cette galerie se remplira des photos de notre grand jour. Partagez les vôtres via le QR code ci-dessous ou scannez à la réception !</p>
-
-                <div class="gallery-actions reveal">
-                    <button class="btn btn-gold" id="uploadBtn">📷 Partager mes photos</button>
-                    <div class="qr-box" id="qrBox">
-                        <p class="qr-title">Scannez pour partager vos photos</p>
-                        <div class="qr-placeholder" id="qrCanvas">QR</div>
-                    </div>
-                </div>
-
-                <div class="gallery-filter reveal">
-                    <button class="gfilter active" data-f="all">Toutes</button>
-                    <button class="gfilter" data-f="fiances">Les Fiançailles</button>
-                    <button class="gfilter" data-f="voyage">Voyages</button>
-                    <button class="gfilter" data-f="mariage">Le Mariage</button>
-                </div>
-
-                <div class="gallery-grid" id="galleryGrid">
-                    <!-- Les photos apparaîtront ici -->
-                    <div class="gallery-empty" id="galleryEmpty">
-                        <p>Les photos du mariage arriveront bientôt…</p>
-                    </div>
-                </div>
-
-                <!-- Lightbox -->
-                <div class="lightbox" id="lightbox">
-                    <button class="lb-close" id="lbClose">&times;</button>
-                    <button class="lb-prev" id="lbPrev">&#10094;</button>
-                    <img id="lbImg" src="" alt="Photo agrandie">
-                    <button class="lb-next" id="lbNext">&#10095;</button>
-                </div>
-            </div>
-        </section>
-
         <!-- ===== RSVP ===== -->
         <section class="rsvp-section section-pad" id="rsvp">
             <div class="container-narrow">
@@ -252,6 +194,9 @@
                     <button type="submit" class="btn btn-gold btn-block">Envoyer ma réponse</button>
                     <p class="rsvp-msg" id="rsvpMsg"></p>
                 </form>
+                <div class="rsvp-gallery-link">
+                    <a href="galerie.html" class="btn btn-ghost">📷 Voir la galerie photo</a>
+                </div>
             </div>
         </section>
     </main>
