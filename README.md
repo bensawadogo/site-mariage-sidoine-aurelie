@@ -1,6 +1,7 @@
-# 💍 Site de mariage — Laurent & Mélissa
+# 💍 Site de dote — Sidoine & Aurélie
 
-Site statique (HTML/CSS/JS + GSAP) pour le mariage de Laurent & Mélissa — **14 juin 2026, Ouagadougou**.
+Site statique (HTML/CSS/JS + GSAP) pour la cérémonie traditionnelle (dote) de
+**Sidoine & Aurélie — samedi 26 septembre 2026, Cocody Angré (Abidjan)**.
 Thème « élégance classique » navy / ivoire / or.
 
 ## 📂 Structure
@@ -14,7 +15,8 @@ Thème « élégance classique » navy / ivoire / or.
 ├── js/main.js          # Intro, musique, compte à rebours, RSVP, animations GSAP
 ├── js/gallery.js       # Galerie, lightbox, filtres
 ├── js/admin.js         # Statistiques, tableau, export CSV des réponses
-├── assets/images/      # Photos (placeholders à remplacer)
+├── assets/images/      # Photos WebP (sidoine-aurelie.webp, faire-part-dote.webp)
+├── assets/faire-part-dote.pdf # Faire-part officiel de la dote (téléchargeable)
 ├── assets/audio/       # Musique d'ambiance
 └── tools/generate_ambient.py  # Régénère l'ambiance WAV (optionnel)
 ```
@@ -32,6 +34,8 @@ Thème « élégance classique » navy / ivoire / or.
   générée). Le bouton n'apparaît que si une piste est réellement chargée.
 - **Carte interactive** : carte OpenStreetMap intégrée dans la section « Le Lieu »
   (sans clé API) + bouton Google Maps.
+- **Faire-part intégré** : la carte officielle de la dote est affichée dans la section
+  « Le Faire-part » de la page d'accueil, avec téléchargement PDF (page + pied de page).
 
 ## ▶️ Lancer le site en local
 
@@ -57,13 +61,17 @@ Pour une collecte centralisée sans serveur, remplacez l'enregistrement local pa
 Déposez votre morceau ici : `assets/audio/song.mp3` (il sera utilisé en priorité).
 Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 
-## 🖼️ Photos
+## 🖼️ Photos & faire-part
 
-La **photo principale** (fond du hero) et la galerie utilisent `assets/images/carte-principale.jpg`,
-convertie depuis la carte officielle des fiançailles (`Carte DOT-1.pdf`, conservée en dehors du dépôt).
-Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
-`assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
-« mariage » actuellement vides).
+- **Photo principale** (fond du hero) et galerie : `assets/images/sidoine-aurelie.webp`
+  (1938×1938, WebP qualité 88), convertie en 300 DPI depuis `Carte DOT-1.pdf`
+  (conservé en dehors du dépôt).
+- **Faire-part de la dote** : `assets/images/faire-part-dote.webp` (1938×1938, 300 DPI)
+  affiché dans la section « Le Faire-part », et `assets/faire-part-dote.pdf` téléchargeable.
+  Contenu : familles Téhua & Yameogo · dote de Sidoine & Aurélie · 26/09/2026 · repas à Cocody Angré.
+- Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
+  `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
+  « mariage » actuellement vides).
 
 ## 🚀 Déploiement
 

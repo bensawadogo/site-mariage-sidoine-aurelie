@@ -84,8 +84,8 @@
     /* ===== COUNTDOWN ===== */
     const countdown = document.querySelector('.countdown');
     if (countdown) {
-        // Date du mariage — À MODIFIER
-        const weddingDate = new Date('2026-06-14T15:00:00');
+        // Date de la cérémonie de la dote — 26 septembre 2026 (voir faire-part)
+        const weddingDate = new Date('2026-09-26T15:00:00');
         const daysEl = $('#cd-days'), hoursEl = $('#cd-hours'),
               minsEl = $('#cd-mins'), secsEl = $('#cd-secs');
 

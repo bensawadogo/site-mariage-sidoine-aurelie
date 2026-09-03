@@ -10,7 +10,7 @@
        ajoutez simplement vos images dans les tableaux correspondants. */
     const galleryData = {
         'fiances': [
-            { f: 'assets/images/carte-principale.jpg', alt: 'Laurent & Mélissa — photo officielle des fiançailles' }
+            { f: 'assets/images/sidoine-aurelie.webp', alt: 'Sidoine & Aurélie — photo officielle des fiançailles' }
         ],
         'voyage': [],
         'mariage': []
