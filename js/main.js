@@ -212,11 +212,9 @@
             scrollTrigger: { trigger: '.hero', start: 'top top', end: '60% top', scrub: 1 }
         });
 
-        /* --- COUNTDOWN SCALE IN --- */
-        gsap.from('.countdown .cd-item', {
-            y: 50, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-            scrollTrigger: { trigger: '.countdown-section', start: 'top 75%', toggleActions: 'play none none none' }
-        });
+        /* --- COMPTEUR / PROGRAMME / RSVP : animés par le système .reveal
+              (IntersectionObserver + filet forceReveal). Les gsap.from ici
+              posaient un style inline opacity:0 qui écrasait .reveal.in. */
 
         /* --- PARALLAX DIVIDERS --- */
         $$('.parallax-divider').forEach(pd => {
@@ -235,11 +233,7 @@
             });
         });
 
-        /* --- PROGRAM CARDS SLIDE UP --- */
-        gsap.from('.program-card', {
-            y: 80, opacity: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
-            scrollTrigger: { trigger: '.program-grid', start: 'top 75%' }
-        });
+        /* --- PROGRAMME / RSVP : voir note plus haut (système .reveal uniquement). */
 
         /* --- VENUE : animé par le système .reveal (IntersectionObserver) —
               pas de gsap.from ici : le style inline opacity:0 de GSAP écrasait
@@ -253,12 +247,6 @@
                 ease: 'power2.out',
                 scrollTrigger: { trigger: tile, start: 'top 88%' }
             });
-        });
-
-        /* --- RSVP FORM REVEAL --- */
-        gsap.from('.rsvp-form > *', {
-            y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out',
-            scrollTrigger: { trigger: '.rsvp-form', start: 'top 78%' }
         });
 
         /* --- NAV BACKGROUND SHIFT on section color change --- */

@@ -71,6 +71,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .btn-gold:hover{background:var(--gold-dark);border-color:var(--gold-dark);color:#fff;transform:translateY(-2px)}
 .btn-ghost{color:var(--ivory);border-color:rgba(255,255,255,.5)}
 .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-2px)}
+/* Variante lisible sur fond clair (section faire-part) */
+.fairepart-actions .btn-ghost{color:var(--navy);border-color:rgba(17,28,38,.45)}
+.fairepart-actions .btn-ghost:hover{background:var(--navy);color:var(--ivory);border-color:var(--navy);transform:translateY(-2px)}
 .btn-block{width:100%}
 
 /* ===== MUSIC FAB ===== */

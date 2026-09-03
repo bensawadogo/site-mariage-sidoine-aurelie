@@ -37,6 +37,21 @@ def audit(ctx, tag):
             "() => document.documentElement.scrollWidth - document.documentElement.clientWidth"),
     })
     page.locator('.venue-card').screenshot(path=OUT + r'\_diag_' + tag + '_lieu.png')
+    page.evaluate("document.querySelector('.rsvp-form').scrollIntoView({block:'center'})")
+    page.wait_for_timeout(1500)
+    results['checks'].update({
+        'rsvp_form_opacity_' + tag: page.evaluate(
+            "() => getComputedStyle(document.querySelector('.rsvp-form')).opacity"),
+        'rsvp_input_opacity_' + tag: page.evaluate(
+            "() => getComputedStyle(document.querySelector('.rsvp-form input')).opacity"),
+        'fp_btn_color_' + tag: page.evaluate(
+            "() => { const b = document.querySelector('.fairepart-actions .btn-ghost');"
+            " return b ? getComputedStyle(b).color : 'ABSENT'; }"),
+        'program_card_opacity_' + tag: page.evaluate(
+            "() => { const c = document.querySelector('.program-card');"
+            " return c ? getComputedStyle(c).opacity : 'ABSENT'; }"),
+    })
+    page.locator('.rsvp-form').screenshot(path=OUT + r'\_diag_' + tag + '_rsvp.png')
 
 with sync_playwright() as p:
     browser = None
