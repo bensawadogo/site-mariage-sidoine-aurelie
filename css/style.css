@@ -247,7 +247,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .footer{background:var(--navy-dark);color:var(--ivory);text-align:center;padding:64px 24px}
 .footer-names{font-family:var(--script);font-size:44px;color:var(--gold-light);margin-bottom:10px}
 .footer-date{font-family:var(--serif);letter-spacing:4px;color:var(--ivory-deep);margin-bottom:12px}
-.footer-hashtag{font-size:15px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+.footer-hashtag{
+    display:inline-block;margin:28px auto 30px;padding:12px 28px;
+    border-top:1px solid rgba(197,163,92,.45);border-bottom:1px solid rgba(197,163,92,.45);
+    font-size:14px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;
+}
 .footer-credit{font-size:13px;color:rgba(247,243,236,.6)}
 
 /* ===== GALLERY PAGE ===== */
@@ -388,7 +392,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .fairepart-card img{border-radius:8px;width:100%;height:auto}
 .fairepart-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
-.footer-link{margin-top:14px}
+.footer-link{margin-top:0}
 .footer-link a{
     color:var(--gold-light);font-size:12px;letter-spacing:2px;text-transform:uppercase;
     border-bottom:1px solid rgba(227,205,158,.4);padding-bottom:2px;transition:var(--transition);
@@ -414,4 +418,7 @@ html,body{overflow-x:hidden}
     .fairepart-intro{font-size:16px;line-height:1.7}
     .fairepart-card{padding:10px;border-radius:10px}
     .fairepart-actions{gap:10px;margin-top:24px}
+    .footer{padding:48px 20px}
+    .footer-names{font-size:34px}
+    .footer-hashtag{font-size:12px;letter-spacing:2.5px;padding:10px 18px;margin:22px auto 24px}
 }
