@@ -183,7 +183,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .program-card:hover{background:rgba(255,255,255,.08);transform:translateY(-4px)}
 .program-time{display:block;font-family:var(--display);font-size:26px;color:var(--gold-light);letter-spacing:2px}
-.program-icon{display:block;font-size:30px;margin:14px 0}
+.program-icon{
+    display:flex;align-items:center;justify-content:center;
+    width:64px;height:64px;margin:14px 0;border-radius:50%;
+    border:2px solid var(--gold);background:rgba(197,163,92,.12);
+    box-shadow:0 0 20px rgba(197,163,92,.3);
+}
+.program-svg{width:30px;height:30px;color:var(--gold-light)}
 .program-card h3{font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:8px}
 .program-card p{font-size:14px;color:rgba(247,243,236,.7)}
 
