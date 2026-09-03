@@ -10,9 +10,31 @@
     const screenIntro = $('#screenIntro');
     const introEnter = $('#introEnter');
     const musicBtn = $('#musicBtn');
-    const audio = new Audio('assets/audio/song.mp3');
+
+    /* Musique d'ambiance : essaie assets/audio/song.mp3 puis song.wav.
+       Le bouton n'apparaît que lorsqu'une piste est réellement chargée. */
+    const audio = new Audio();
     audio.loop = true;
     audio.volume = 0.4;
+    audio.preload = 'auto';
+    const MUSIC_SOURCES = ['assets/audio/song.mp3', 'assets/audio/song.wav'];
+    let musicIndex = 0;
+    let musicReady = false;
+
+    function tryLoadMusic() {
+        if (musicIndex >= MUSIC_SOURCES.length) return; // aucune piste disponible
+        audio.src = MUSIC_SOURCES[musicIndex];
+        audio.load();
+    }
+    audio.addEventListener('canplaythrough', () => {
+        if (!musicReady && musicBtn) musicBtn.classList.add('show');
+        musicReady = true;
+    });
+    audio.addEventListener('error', () => {
+        musicIndex += 1;
+        tryLoadMusic();
+    });
+    tryLoadMusic();
 
     if (introEnter && screenIntro) {
         introEnter.addEventListener('click', () => {
@@ -23,36 +45,30 @@
         document.body.style.overflow = 'hidden';
     }
 
-    musicBtn.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play().catch(() => {});
-            musicBtn.classList.add('playing');
-        } else {
-            audio.pause();
-            musicBtn.classList.remove('playing');
-        }
-    });
+    if (musicBtn) {
+        musicBtn.addEventListener('click', () => {
+            if (!musicReady) return;
+            if (audio.paused) {
+                audio.play().then(() => musicBtn.classList.add('playing')).catch(() => {
+                    musicBtn.classList.remove('playing');
+                });
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+            }
+        });
+    }
 
     /* ===== NAV SCROLL ===== */
+    /* La navbar complète a été retirée : #navToggle / #mobileMenu n'existent plus.
+       On ne garde que le fond de la mini-nav au scroll (avec garde-fou si absente). */
     const nav = $('#siteNav');
-    const navToggle = $('#navToggle');
-    const mobileMenu = $('#mobileMenu');
 
-    window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
-
-    navToggle.addEventListener('click', () => {
-        const open = mobileMenu.classList.toggle('open');
-        navToggle.classList.toggle('active', open);
-    });
-
-    $$('#mobileMenu a').forEach(a =>
-        a.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            navToggle.classList.remove('active');
-        })
-    );
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
+    }
 
     /* ===== REVEAL ON SCROLL ===== */
     const revealObserver = new IntersectionObserver((entries) => {
@@ -93,15 +109,75 @@
         setInterval(updateCountdown, 1000);
     }
 
-    /* ===== RSVP ===== */
+    /* ===== RSVP (avec sauvegarde locale) =====
+       Les réponses sont enregistrées dans le navigateur du visiteur (localStorage),
+       puis consultables depuis la page discrète admin.html (statistiques + export CSV).
+       NB : le stockage est local à chaque appareil — voir README.md pour les limites
+       et les options de collecte centralisée. */
+    const RSVP_KEY = 'lm_rsvps_v1';
     const rsvpForm = $('#rsvpForm');
     const rsvpMsg = $('#rsvpMsg');
-    rsvpForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        rsvpMsg.textContent = 'Merci ! Votre réponse a bien été enregistrée. À très bientôt !';
-        rsvpMsg.classList.add('ok');
-        rsvpForm.reset();
-    });
+
+    function loadRsvps() {
+        try { return JSON.parse(localStorage.getItem(RSVP_KEY)) || []; }
+        catch (_) { return []; }
+    }
+    function saveRsvps(list) {
+        try { localStorage.setItem(RSVP_KEY, JSON.stringify(list)); return true; }
+        catch (_) { return false; }
+    }
+
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = new FormData(rsvpForm);
+            const nom = String(data.get('nom') || '').trim();
+            const invites = parseInt(data.get('invites'), 10) || 1;
+            const reponse = String(data.get('reponse') || '');
+            const message = String(data.get('message') || '').trim();
+
+            if (!nom || !reponse) {
+                rsvpMsg.textContent = 'Merci de renseigner votre nom et votre réponse.';
+                rsvpMsg.classList.add('err');
+                rsvpMsg.classList.remove('ok');
+                return;
+            }
+
+            const list = loadRsvps();
+            const key = nom.toLowerCase();
+            const existing = list.find(r => r.nom.toLowerCase() === key);
+
+            if (existing) {
+                // Mise à jour silencieuse — pas de doublon
+                existing.invites = invites;
+                existing.reponse = reponse;
+                existing.message = message;
+                existing.updatedAt = new Date().toISOString();
+                const saved = saveRsvps(list);
+                rsvpMsg.textContent = saved
+                    ? 'Merci ' + nom + ' ! Nous avons mis à jour votre réponse. À très bientôt !'
+                    : 'Impossible d\u2019enregistrer la réponse (stockage du navigateur indisponible).';
+            } else {
+                list.push({
+                    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+                    nom: nom,
+                    invites: invites,
+                    reponse: reponse,
+                    message: message,
+                    createdAt: new Date().toISOString()
+                });
+                const saved = saveRsvps(list);
+                rsvpMsg.textContent = saved
+                    ? (reponse === 'oui'
+                        ? 'Merci ' + nom + ' ! Votre présence pour ' + invites + ' invité' + (invites > 1 ? 's' : '') + ' est bien enregistrée. À très bientôt !'
+                        : 'Merci ' + nom + ' ! Votre réponse a bien été enregistrée. Vous serez dans nos pensées !')
+                    : 'Impossible d\u2019enregistrer la réponse (stockage du navigateur indisponible).';
+            }
+            rsvpMsg.classList.add('ok');
+            rsvpMsg.classList.remove('err');
+            rsvpForm.reset();
+        });
+    }
 
     /* ═══════════════════════════════════════════════════
        GSAP SCROLL ANIMATIONS — IMMERSION
@@ -187,12 +263,14 @@
         });
 
         /* --- NAV BACKGROUND SHIFT on section color change --- */
-        ScrollTrigger.create({
-            trigger: '.program-section',
-            start: 'top 60%',
-            onEnter: () => nav.classList.add('scrolled'),
-            onLeaveBack: () => nav.classList.remove('scrolled')
-        });
+        if (nav) {
+            ScrollTrigger.create({
+                trigger: '.program-section',
+                start: 'top 60%',
+                onEnter: () => nav.classList.add('scrolled'),
+                onLeaveBack: () => nav.classList.remove('scrolled')
+            });
+        }
 
     } // end GSAP
 

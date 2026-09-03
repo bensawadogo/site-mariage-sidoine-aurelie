@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réponses RSVP · Laurent & Mélissa</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Italiana&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+
+    <!-- ===== NAV MINI ===== -->
+    <header class="nav nav-slim nav-scrolled" id="siteNav">
+        <a href="index.html" class="nav-brand">← L &amp; M</a>
+        <a href="index.html" class="nav-gallery-link">← Retour au site</a>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+            <div class="admin-header-row">
+                <div>
+                    <h1 class="admin-title">Réponses des invités</h1>
+                    <p class="admin-sub">Suivi des confirmations — enregistrées sur cet appareil</p>
+                </div>
+                <div class="admin-actions">
+                    <button class="btn btn-outline" id="exportCsv">⬇ Exporter CSV</button>
+                    <button class="btn btn-danger" id="clearAll">Tout effacer</button>
+                </div>
+            </div>
+
+            <div class="admin-stats" id="adminStats"></div>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Nom</th>
+                            <th>Invités</th>
+                            <th>Réponse</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBody"></tbody>
+                </table>
+                <div class="admin-empty" id="adminEmpty">Aucune réponse enregistrée pour le moment…</div>
+            </div>
+
+            <p class="admin-note">NB : les réponses sont stockées dans le navigateur de chaque visiteur (localStorage). Cette page n'affiche que les réponses saisies sur cet appareil. Pour une collecte centralisée (tous les invités), voir README.md.</p>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-names">Laurent &amp; Mélissa</p>
+            <p class="footer-date">14 · 06 · 2026</p>
+        </div>
+    </footer>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
