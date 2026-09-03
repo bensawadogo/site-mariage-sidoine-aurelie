@@ -10,7 +10,7 @@
        ajoutez simplement vos images dans les tableaux correspondants. */
     const galleryData = {
         'fiances': [
-            { f: 'assets/images/sidoine-aurelie.webp', alt: 'Sidoine & Aurélie — photo officielle des fiançailles' }
+            { f: 'assets/images/sidoine-aurelie-thumb.webp', full: 'assets/images/sidoine-aurelie.webp', alt: 'Sidoine & Aurélie — photo officielle des fiançailles' }
         ],
         'voyage': [],
         'mariage': []
@@ -40,7 +40,7 @@
             const tile = document.createElement('div');
             tile.className = 'gallery-tile';
             tile.dataset.cat = t.cat;
-            tile.innerHTML = '<img src="' + t.f + '" alt="' + t.alt + '" loading="lazy">';
+            tile.innerHTML = '<img src="' + t.f + '" data-full="' + (t.full || t.f) + '" alt="' + t.alt + '" loading="lazy">';
             tile.addEventListener('click', function() { openLightbox(tile.querySelector('img')); });
             galleryGrid.appendChild(tile);
         });
@@ -62,7 +62,7 @@
     let galleryImages = [];
 
     function openLightbox(img) {
-        lbImg.src = img.src;
+        lbImg.src = img.dataset.full || img.src;
         galleryImages = $$('#galleryGrid .gallery-tile img');
         currentTile = galleryImages.indexOf(img);
         lightbox.classList.add('open');
@@ -75,7 +75,7 @@
     function navLightbox(dir) {
         if (!galleryImages.length) return;
         currentTile = (currentTile + dir + galleryImages.length) % galleryImages.length;
-        lbImg.src = galleryImages[currentTile].src;
+        lbImg.src = galleryImages[currentTile].dataset.full || galleryImages[currentTile].src;
     }
 
     $('#lbClose').addEventListener('click', closeLightbox);

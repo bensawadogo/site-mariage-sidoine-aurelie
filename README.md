@@ -15,7 +15,8 @@ Thème « élégance classique » navy / ivoire / or.
 ├── js/main.js          # Intro, musique, compte à rebours, RSVP, animations GSAP
 ├── js/gallery.js       # Galerie, lightbox, filtres
 ├── js/admin.js         # Statistiques, tableau, export CSV des réponses
-├── assets/images/      # Photos WebP (sidoine-aurelie, faire-part-dote, bague-mariage)
+├── assets/images/      # Photos WebP (sidoine-aurelie, faire-part-dote, bague-mariage,
+│                       #   carte-cocody + variants mobile *-mobile/-thumb)
 ├── assets/faire-part-dote.pdf # Faire-part officiel de la dote (téléchargeable)
 ├── assets/audio/       # Musique d'ambiance
 └── tools/generate_ambient.py  # Régénère l'ambiance WAV (optionnel)
@@ -32,8 +33,9 @@ Thème « élégance classique » navy / ivoire / or.
 - **Musique d'ambiance** : bouton flottant ; le site essaie `assets/audio/song.mp3`
   (votre vrai morceau) puis retombe sur `assets/audio/song.wav` (boucle d'ambiance
   générée). Le bouton n'apparaît que si une piste est réellement chargée.
-- **Carte interactive** : carte OpenStreetMap intégrée dans la section « Le Lieu »
-  (sans clé API) + bouton Google Maps.
+- **Carte du lieu** : image statique OpenStreetMap stockée localement (`carte-cocody.webp`,
+  épingle dorée incluse) — elle s'affiche toujours, même si les iframes Google/OSM sont
+  bloqués — et elle est cliquable vers Google Maps + bouton d'itinéraire.
 - **Faire-part intégré** : la carte officielle de la dote est affichée dans la section
   « Le Faire-part » de la page d'accueil, avec téléchargement PDF (page + pied de page).
 
@@ -65,9 +67,15 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 
 - **Photo principale** (fond du hero) et galerie : `assets/images/sidoine-aurelie.webp`
   (1938×1938, WebP qualité 88), convertie en 300 DPI depuis `Carte DOT-1.pdf`
-  (conservé en dehors du dépôt).
+  (conservé en dehors du dépôt). Un variant allégé `sidoine-aurelie-mobile.webp` (1000×1000)
+  est chargé automatiquement sur mobile (preload adaptatif) et la galerie utilise la vignette
+  `sidoine-aurelie-thumb.webp` (480×480) — la lightbox charge la pleine résolution.
+- **Carte du lieu** : `carte-cocody.webp` (1152×720) — assemblage de tuiles OpenStreetMap
+  (mention « © OpenStreetMap contributors »), épingle dorée, servie localement (aucun iframe :
+  s'affiche même si les contenus Google/OSM sont bloqués). Cliquable vers Google Maps.
 - **Faire-part de la dote** : `assets/images/faire-part-dote.webp` (1938×1938, 300 DPI)
-  affiché dans la section « Le Faire-part », et `assets/faire-part-dote.pdf` téléchargeable.
+  affiché dans la section « Le Faire-part » (variant mobile `faire-part-dote-mobile.webp`
+  via srcset), et `assets/faire-part-dote.pdf` téléchargeable.
   Contenu : familles Téhua & Yameogo · dote de Sidoine & Aurélie · 26/09/2026 · repas à Cocody Angré.
 - Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
   `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et

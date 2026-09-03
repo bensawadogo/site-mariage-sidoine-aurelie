@@ -299,12 +299,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .gsap-fade{opacity:0}
 .gsap-rotate-in{transform:rotate(-3deg) scale(0.95);opacity:0}
 
-/* ===== CARTE INTERACTIVE (LIEU) ===== */
+/* ===== CARTE (LIEU) — image statique locale ===== */
 .venue-map{
     margin-top:28px;margin-bottom:20px;border-radius:10px;overflow:hidden;
     border:1px solid var(--ivory-deep);box-shadow:0 10px 30px rgba(17,28,38,.08);
 }
-.venue-map iframe{display:block;width:100%;height:340px;border:0;filter:saturate(.85)}
+.venue-map a{display:block}
+.venue-map img{display:block;width:100%;height:auto;filter:saturate(.9);transition:transform .5s ease}
+.venue-map a:hover img{transform:scale(1.02)}
+.map-caption{
+    display:block;padding:10px 14px;font-size:13px;letter-spacing:.5px;
+    color:var(--navy);background:var(--ivory-deep);font-family:var(--sans);
+}
 
 /* ===== RSVP MSG ERREUR ===== */
 .rsvp-msg.err{color:#E8A0A0}
@@ -354,6 +360,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 
 @media (max-width:480px){
+    .hero-bg{
+        background:
+            linear-gradient(180deg,rgba(17,28,38,.66) 0%,rgba(17,28,38,.30) 42%,rgba(17,28,38,.30) 60%,rgba(17,28,38,.74) 100%),
+            url('../assets/images/sidoine-aurelie-mobile.webp') center 25%/cover no-repeat;
+    }
     .hero-names{gap:0}
     .hero-divider i::before{content:'✦';font-size:.2em}
     .cd-item{min-width:56px;padding:12px 8px}
