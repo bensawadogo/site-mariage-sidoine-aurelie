@@ -44,8 +44,8 @@ Thème « élégance classique » navy / ivoire / or.
 Aucun build nécessaire. Ouvrez simplement `index.html`, ou mieux :
 
 ```bash
-python -m http.server 5500
-# puis http://localhost:5500
+python -m http.server 5501
+# puis http://localhost:5501
 ```
 
 ## ⚠️ Limites du RSVP local & alternatives

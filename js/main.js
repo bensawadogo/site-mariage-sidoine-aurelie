@@ -40,6 +40,8 @@
         introEnter.addEventListener('click', () => {
             screenIntro.classList.add('hidden');
             document.body.style.overflow = 'auto';
+            // Recalcule les positions des animations au scroll (intro = scroll verrouillé)
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
         });
         // Prevent scroll while intro visible
         document.body.style.overflow = 'hidden';
