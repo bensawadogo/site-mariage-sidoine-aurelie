@@ -83,6 +83,20 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     $$('.reveal').forEach(el => revealObserver.observe(el));
 
+    /* ===== FILET DE SÉCURITÉ RÉVÉLATION =====
+       Garantit qu'aucune section ne reste bloquée en opacity:0 si l'observer
+       ou une animation échoue : tout élément .reveal atteint par le scroll
+       (ou après 2,5 s) est forcé à l'état visible. */
+    const forceReveal = () => {
+        const limit = window.innerHeight + 200;
+        $$('.reveal:not(.in)').forEach(el => {
+            if (el.getBoundingClientRect().top < limit) el.classList.add('in');
+        });
+    };
+    window.addEventListener('scroll', forceReveal, { passive: true });
+    window.addEventListener('resize', forceReveal, { passive: true });
+    setTimeout(forceReveal, 2500);
+
     /* ===== COUNTDOWN ===== */
     const countdown = document.querySelector('.countdown');
     if (countdown) {
@@ -227,11 +241,9 @@
             scrollTrigger: { trigger: '.program-grid', start: 'top 75%' }
         });
 
-        /* --- VENUE SCALE IN --- */
-        gsap.from('.venue-card', {
-            scale: 0.9, opacity: 0, duration: 1, ease: 'power2.out',
-            scrollTrigger: { trigger: '.venue-section', start: 'top 65%' }
-        });
+        /* --- VENUE : animé par le système .reveal (IntersectionObserver) —
+              pas de gsap.from ici : le style inline opacity:0 de GSAP écrasait
+              .reveal.in et laissait la carte invisible définitivement. */
 
         /* --- GALLERY TILES STAGGER --- */
         $$('.gallery-tile').forEach((tile, i) => {
