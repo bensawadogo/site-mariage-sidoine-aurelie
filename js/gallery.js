@@ -9,6 +9,13 @@
        Les catégories « voyage » et « mariage » seront complétées après le jour J :
        ajoutez simplement vos images dans les tableaux correspondants. */
     const galleryData = {
+        'demande': [
+            { f: 'assets/images/demande-1.webp', alt: 'La demande en mariage — souvenir 1' },
+            { f: 'assets/images/demande-2.webp', alt: 'La demande en mariage — souvenir 2' },
+            { f: 'assets/images/demande-3.webp', alt: 'La demande en mariage — souvenir 3' },
+            { f: 'assets/images/demande-4.webp', alt: 'La demande en mariage — souvenir 4' },
+            { f: 'assets/images/demande-5.webp', alt: 'La demande en mariage — souvenir 5' }
+        ],
         'fiances': [
             { f: 'assets/images/sidoine-aurelie-thumb.webp', full: 'assets/images/sidoine-aurelie.webp', alt: 'Sidoine & Aurélie — photo officielle des fiançailles' }
         ],

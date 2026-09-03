@@ -77,6 +77,9 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
   affiché dans la section « Le Faire-part » (variant mobile `faire-part-dote-mobile.webp`
   via srcset), et `assets/faire-part-dote.pdf` téléchargeable.
   Contenu : familles Téhua & Yameogo · dote de Sidoine & Aurélie · 26/09/2026 · repas à Cocody Angré.
+- **La Demande** : 5 souvenirs dans la catégorie « demande » (`demande-1.webp` à `demande-5.webp`).
+  ⚠️ Ce sont des miniatures basse résolution (72×48 px reçues en base64), agrandies ×4 —
+  remplacez-les par les photos originales HD (mêmes noms de fichiers) dès que possible.
 - Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
   `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
   « mariage » actuellement vides).
