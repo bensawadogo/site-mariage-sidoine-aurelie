@@ -134,7 +134,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .hero-bg{
     position:absolute;inset:0;
-    background:radial-gradient(ellipse at center,rgba(197,163,92,.15),transparent 60%),linear-gradient(160deg,var(--navy-dark),var(--navy) 60%,var(--navy));
+    background:
+        linear-gradient(180deg,rgba(17,28,38,.66) 0%,rgba(17,28,38,.30) 42%,rgba(17,28,38,.30) 60%,rgba(17,28,38,.74) 100%),
+        url('../assets/images/carte-principale.jpg') center 28%/cover no-repeat;
     z-index:0;
 }
 .hero::after{

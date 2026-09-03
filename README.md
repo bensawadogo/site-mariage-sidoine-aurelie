@@ -57,10 +57,13 @@ Pour une collecte centralisée sans serveur, remplacez l'enregistrement local pa
 Déposez votre morceau ici : `assets/audio/song.mp3` (il sera utilisé en priorité).
 Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 
-## 🖼️ Remplacer les photos
+## 🖼️ Photos
 
-Remplacez les fichiers `assets/images/placeholder*.jpg` (ou modifiez `galleryData`
-dans `js/gallery.js`) et ajoutez les visuels de fond souhaités.
+La **photo principale** (fond du hero) et la galerie utilisent `assets/images/carte-principale.jpg`,
+convertie depuis la carte officielle des fiançailles (`Carte DOT-1.pdf`, conservée en dehors du dépôt).
+Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
+`assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
+« mariage » actuellement vides).
 
 ## 🚀 Déploiement
 

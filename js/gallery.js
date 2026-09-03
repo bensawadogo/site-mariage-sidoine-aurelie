@@ -4,20 +4,16 @@
     const $ = (s, c = document) => c.querySelector(s);
     const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
 
-    /* ===== GALLERY DATA ===== */
+    /* ===== GALLERY DATA =====
+       Photo officielle des fiançailles (convertie depuis la carte DOT-1).
+       Les catégories « voyage » et « mariage » seront complétées après le jour J :
+       ajoutez simplement vos images dans les tableaux correspondants. */
     const galleryData = {
         'fiances': [
-            { f: 'assets/images/placeholder1.jpg', alt: 'Fiançailles 1' },
-            { f: 'assets/images/placeholder2.jpg', alt: 'Fiançailles 2' }
+            { f: 'assets/images/carte-principale.jpg', alt: 'Laurent & Mélissa — photo officielle des fiançailles' }
         ],
-        'voyage': [
-            { f: 'assets/images/placeholder3.jpg', alt: 'Voyage 1' },
-            { f: 'assets/images/placeholder4.jpg', alt: 'Voyage 2' }
-        ],
-        'mariage': [
-            { f: 'assets/images/placeholder5.jpg', alt: 'Mariage 1' },
-            { f: 'assets/images/placeholder6.jpg', alt: 'Mariage 2' }
-        ]
+        'voyage': [],
+        'mariage': []
     };
 
     /* ===== GALLERY RENDER + FILTER ===== */
