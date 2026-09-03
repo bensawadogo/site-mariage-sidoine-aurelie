@@ -7,7 +7,7 @@ Thème « élégance classique » navy / ivoire / or.
 ## 📂 Structure
 
 ```
-├── index.html          # Page principale (intro, hero, compte à rebours, histoire,
+├── index.html          # Page principale (intro, hero, compte à rebours, faire-part,
 │                       #   programme, lieu + carte, RSVP)
 ├── galerie.html        # Galerie photo (filtres, lightbox, QR de partage)
 ├── admin.html          # Page discrète de suivi des réponses RSVP (non indexée)
@@ -15,7 +15,7 @@ Thème « élégance classique » navy / ivoire / or.
 ├── js/main.js          # Intro, musique, compte à rebours, RSVP, animations GSAP
 ├── js/gallery.js       # Galerie, lightbox, filtres
 ├── js/admin.js         # Statistiques, tableau, export CSV des réponses
-├── assets/images/      # Photos WebP (sidoine-aurelie.webp, faire-part-dote.webp)
+├── assets/images/      # Photos WebP (sidoine-aurelie, faire-part-dote, bague-mariage)
 ├── assets/faire-part-dote.pdf # Faire-part officiel de la dote (téléchargeable)
 ├── assets/audio/       # Musique d'ambiance
 └── tools/generate_ambient.py  # Régénère l'ambiance WAV (optionnel)
@@ -72,6 +72,10 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 - Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
   `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
   « mariage » actuellement vides).
+- **Alliances** : `assets/images/bague-mariage.webp` (800×800, recadrée + WebP), affichée dans
+  le séparateur du programme et la carte « Cérémonie de la dote ». Source : photo
+  « Pair of gold wedding rings » de **Mauro Cateb**, Wikimedia Commons, **CC BY-SA 3.0** —
+  https://commons.wikimedia.org/wiki/File:Pair_of_gold_wedding_rings.JPG
 
 ## 🚀 Déploiement
 

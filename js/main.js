@@ -219,21 +219,6 @@
             });
         });
 
-        /* --- STORY NODES STAGGER --- */
-        gsap.from('.story-node', {
-            x: -40, opacity: 0, duration: 0.9, stagger: 0.2, ease: 'power2.out',
-            scrollTrigger: { trigger: '.story-timeline', start: 'top 72%' }
-        });
-
-        /* --- STORY TIMELINE LINE DRAW --- */
-        const timeline = document.querySelector('.story-timeline');
-        if (timeline) {
-            gsap.from('.story-timeline::before', {
-                scaleY: 0, transformOrigin: 'top', ease: 'none',
-                scrollTrigger: { trigger: timeline, start: 'top 70%', end: 'bottom 30%', scrub: 1 }
-            });
-        }
-
         /* --- PROGRAM CARDS SLIDE UP --- */
         gsap.from('.program-card', {
             y: 80, opacity: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',

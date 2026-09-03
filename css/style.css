@@ -169,15 +169,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cd-label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px}
 .cd-sep{font-family:var(--display);font-size:40px;color:var(--gold);margin-bottom:26px}
 
-/* ===== STORY ===== */
-.story-section{background:linear-gradient(180deg,var(--ivory),var(--ivory-deep))}
-.story-timeline{position:relative;margin-top:48px;padding-left:120px}
-.story-timeline::before{content:'';position:absolute;left:60px;top:0;bottom:0;width:1px;background:var(--gold)}
-.story-node{position:relative;margin-bottom:44px;padding-left:40px}
-.story-node::before{content:'';position:absolute;left:-104px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px #fff,0 0 0 5px var(--gold)}
-.story-year{font-family:var(--display);font-size:26px;color:var(--gold-dark);display:block;margin-bottom:6px}
-.story-node p{font-family:var(--serif);font-size:20px;color:var(--text);max-width:520px}
-
 /* ===== PROGRAM ===== */
 .program-section{background:var(--navy);color:var(--ivory)}
 .program-section .section-title{color:var(--ivory)}
@@ -276,12 +267,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     display:flex;align-items:center;justify-content:center;
 }
 .pd-bg{position:absolute;inset:-20%;background:var(--navy-dark);z-index:0}
-.pd-story .pd-bg{
-    background:
-        radial-gradient(ellipse at 30% 40%,rgba(197,163,92,.12),transparent 50%),
-        radial-gradient(ellipse at 70% 60%,rgba(247,243,236,.06),transparent 50%),
-        linear-gradient(160deg,var(--navy-dark),var(--navy) 50%,var(--navy-dark));
-}
 .pd-programme .pd-bg{
     background:
         radial-gradient(ellipse at 50% 50%,rgba(197,163,92,.15),transparent 60%),
@@ -297,7 +282,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .pd-year{font-family:var(--display);font-size:clamp(40px,7vw,80px);color:var(--gold-light);opacity:.18;line-height:1}
 .pd-label{font-family:var(--serif);font-size:18px;color:var(--ivory-deep);letter-spacing:2px;margin-top:4px}
 .pd-center{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
-.pd-icon{font-size:48px;filter:drop-shadow(0 0 20px rgba(197,163,92,.4))}
+.pd-ring{
+    width:clamp(96px,13vw,150px);height:clamp(96px,13vw,150px);border-radius:50%;
+    object-fit:cover;border:3px solid var(--gold);
+    box-shadow:0 0 0 6px rgba(197,163,92,.15),0 0 50px rgba(197,163,92,.35);
+}
 .pd-date-big{font-family:var(--display);font-size:clamp(36px,6vw,72px);color:var(--gold-light);letter-spacing:8px;opacity:.6}
 
 /* ===== GSAP ANIMATION CLASSES ===== */
@@ -359,9 +348,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     .cd-item{padding:16px 16px;min-width:68px}
     .cd-num{font-size:30px}
     .cd-sep{font-size:28px;margin-bottom:20px}
-    .story-timeline{padding-left:50px}
-    .story-timeline::before{left:20px}
-    .story-node::before{left:-48px}
     .music-fab{bottom:20px;right:20px}
     .pd-text-left{margin-left:6%}
     .pd-text-right{margin-right:6%}
@@ -398,3 +384,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .footer-link a:hover{color:#fff;border-color:#fff}
 @media (max-width:480px){.fairepart-actions .btn{width:100%}}
+
+/* ===== BAGUE (PROGRAMME) ===== */
+.program-ring{
+    width:64px;height:64px;border-radius:50%;object-fit:cover;
+    border:2px solid var(--gold);box-shadow:0 0 20px rgba(197,163,92,.3);
+}
