@@ -401,3 +401,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     width:64px;height:64px;border-radius:50%;object-fit:cover;
     border:2px solid var(--gold);box-shadow:0 0 20px rgba(197,163,92,.3);
 }
+
+/* ===== GARDE-FOU MOBILE — anti-débordement + alignement ===== */
+html,body{overflow-x:hidden}
+@media (max-width:768px){
+    .section-pad{padding:60px 0}
+    .fairepart-intro{margin-bottom:30px}
+}
+@media (max-width:480px){
+    .section-kicker{font-size:24px}
+    .section-title{font-size:26px;letter-spacing:.5px;margin-bottom:12px}
+    .fairepart-intro{font-size:16px;line-height:1.7}
+    .fairepart-card{padding:10px;border-radius:10px}
+    .fairepart-actions{gap:10px;margin-top:24px}
+}
