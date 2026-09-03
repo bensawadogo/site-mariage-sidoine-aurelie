@@ -10,7 +10,7 @@
        ajoutez simplement vos images dans les tableaux correspondants. */
     const galleryData = {
         'demande': [
-            { f: 'assets/images/demande-1.webp', alt: 'La demande en mariage — souvenir 1' },
+            { f: 'assets/images/demande-1.webp', alt: 'La demande en mariage — l\'instant du oui' },
             { f: 'assets/images/demande-2.webp', alt: 'La demande en mariage — souvenir 2' },
             { f: 'assets/images/demande-3.webp', alt: 'La demande en mariage — souvenir 3' },
             { f: 'assets/images/demande-4.webp', alt: 'La demande en mariage — souvenir 4' },
