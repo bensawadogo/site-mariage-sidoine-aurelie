@@ -72,10 +72,10 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 - Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
   `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
   « mariage » actuellement vides).
-- **Alliances** : `assets/images/bague-mariage.webp` (800×800, recadrée + WebP), affichée dans
-  le séparateur du programme et la carte « Cérémonie de la dote ». Source : photo
-  « Pair of gold wedding rings » de **Mauro Cateb**, Wikimedia Commons, **CC BY-SA 3.0** —
-  https://commons.wikimedia.org/wiki/File:Pair_of_gold_wedding_rings.JPG
+- **Bague sertie de diamants** : `assets/images/bague-mariage.webp` (800×800, recadrée + WebP),
+  affichée dans le séparateur du programme et la carte « Cérémonie de la dote ». Source : photo
+  « Diamond ring » de **Ernst Vikne**, Wikimedia Commons, **CC BY-SA 2.0** —
+  https://commons.wikimedia.org/wiki/File:Diamond_ring_by_Ernst_Vikne.jpg
 
 ## 🚀 Déploiement
 
