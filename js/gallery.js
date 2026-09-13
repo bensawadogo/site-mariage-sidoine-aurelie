@@ -169,9 +169,73 @@
     const uploadDropzone = $('#uploadDropzone');
     const uploadNote = $('.upload-note');
     const sharePhotosBtn = $('#sharePhotosBtn');
+    const consentBanner = $('#consentBanner');
+    const consentAccept = $('#consentAccept');
+    const consentDecline = $('#consentDecline');
+    const CONSENT_KEY = 'lm_gallery_consent_v1';
 
     if (supabase && uploadNote) {
         uploadNote.textContent = 'Elles seront visibles par tous les invités.';
+    }
+
+    function hasConsent() {
+        return localStorage.getItem(CONSENT_KEY) === 'true';
+    }
+
+    function setConsent(given) {
+        localStorage.setItem(CONSENT_KEY, given ? 'true' : 'false');
+        if (given) {
+            consentBanner.hidden = true;
+            uploadDropzone.hidden = false;
+        } else {
+            consentBanner.hidden = false;
+            uploadDropzone.hidden = true;
+        }
+    }
+
+    // Init consent state
+    if (hasConsent()) {
+        consentBanner.hidden = true;
+        uploadDropzone.hidden = false;
+    } else {
+        consentBanner.hidden = false;
+        uploadDropzone.hidden = true;
+    }
+
+    consentAccept.addEventListener('click', function() {
+        setConsent(true);
+        showUploadStatus('Sélectionnez une ou plusieurs photos dans votre galerie.', false);
+        photoInput.click();
+        addRevokeConsentButton();
+    });
+
+    consentDecline.addEventListener('click', function() {
+        setConsent(false);
+        showUploadStatus('Aucune photo ne sera envoyée sans votre accord.', false);
+    });
+
+    // RGPD: permettre de retirer son consentement et supprimer ses photos
+    function addRevokeConsentButton() {
+        if (!hasConsent() || !uploadPreview) return;
+        const existing = uploadPreview.querySelector('.revoke-consent');
+        if (existing) return;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'revoke-consent';
+        btn.textContent = 'Retirer mon accord & supprimer mes photos';
+        btn.style.cssText = 'margin-top:16px;padding:8px 12px;font-size:12px;color:var(--muted);background:transparent;border:1px solid var(--ivory-deep);border-radius:6px;cursor:pointer';
+        btn.addEventListener('click', function() {
+            if (confirm('Cela supprimera vos photos de cet appareil et retirera votre consentement. Continuer ?')) {
+                uploadedPhotos = [];
+                galleryData.mariage = officialMarriagePhotos;
+                saveUploadedPhotos([]);
+                setConsent(false);
+                refreshUploadPreview();
+                renderGallery(currentFilter);
+                showUploadStatus('Consentement retiré, photos locales supprimées.', false);
+            }
+        });
+        uploadPreview.parentNode.insertBefore(btn, uploadPreview.nextSibling);
     }
 
     function showUploadStatus(message, isError) {
@@ -214,6 +278,7 @@
             item.append(image, remove);
             uploadPreview.appendChild(item);
         });
+        if (hasConsent() && uploadedPhotos.length) addRevokeConsentButton();
     }
 
     function readPhoto(file) {
@@ -253,14 +318,13 @@
         };
     }
 
-    uploadBtn.addEventListener('click', function(event) {
-        event.stopPropagation();
-        showUploadStatus('Sélectionnez une ou plusieurs photos dans votre galerie.', false);
-        photoInput.click();
-    });
-
     sharePhotosBtn.addEventListener('click', function(event) {
         event.preventDefault();
+        if (!hasConsent()) {
+            uploadDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            consentBanner.focus();
+            return;
+        }
         uploadDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
         showUploadStatus('Sélectionnez une ou plusieurs photos dans votre galerie.', false);
         photoInput.click();
@@ -326,6 +390,7 @@
     if (uploadedPhotos.length || supabase) {
         refreshUploadPreview();
     }
+    if (hasConsent() && uploadedPhotos.length) addRevokeConsentButton();
 
     /* ===== INIT ===== */
     renderGallery('all');

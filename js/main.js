@@ -141,7 +141,7 @@
     const countdown = document.querySelector('.countdown');
     if (countdown) {
         // Date de la cérémonie de la dote — 26 septembre 2026 (voir faire-part)
-        const weddingDate = new Date('2026-09-26T15:00:00');
+        const weddingDate = new Date('2026-09-26T12:00:00');
         const daysEl = $('#cd-days'), hoursEl = $('#cd-hours'),
               minsEl = $('#cd-mins'), secsEl = $('#cd-secs');
 
@@ -232,6 +232,14 @@
             rsvpMsg.classList.add('ok');
             rsvpMsg.classList.remove('err');
             rsvpForm.reset();
+
+            // Redirection vers WhatsApp après envoi réussi
+            const whatsappText = reponse === 'oui'
+                ? 'Bonjour Aur%C3%A9lie, je confirme ma pr%C3%A9sence au mariage de Sidoine et Aur%C3%A9lie (' + invites + ' personne' + (invites > 1 ? 's' : '') + '). ' + (message ? 'Message : ' + message : '')
+                : 'Bonjour Aur%C3%A9lie, je ne pourrai pas assister au mariage de Sidoine et Aur%C3%A9lie. ' + (message ? 'Message : ' + message : '');
+            setTimeout(function() {
+                window.open('https://wa.me/2250778616352?text=' + encodeURIComponent(whatsappText), '_blank', 'noopener');
+            }, 1500);
         });
     }
 

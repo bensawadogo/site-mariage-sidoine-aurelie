@@ -28,7 +28,25 @@
                 <div class="gallery-actions reveal">
                     <input class="upload-input" id="photoInput" type="file" accept="image/*" multiple aria-label="Choisir des photos à ajouter à la galerie">
                     <div class="upload-panel" id="uploadPanel">
-                        <div class="upload-dropzone" id="uploadDropzone">
+                        <!-- RGPD Consent Banner -->
+                        <div class="consent-banner" id="consentBanner" role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+                            <div class="consent-content">
+                                <h3 id="consentTitle">Vos photos, vos droits</h3>
+                                <p id="consentText">En ajoutant des photos, vous acceptez qu'elles soient :</p>
+                                <ul class="consent-list">
+                                    <li>Stockées sur nos serveurs (Supabase, UE)</li>
+                                    <li>Visibles par tous les invités du mariage</li>
+                                    <li>Conservées jusqu'à votre demande de suppression</li>
+                                </ul>
+                                <p class="consent-rights">Vous pouvez demander la suppression à tout moment via <a href="mailto:sidoine.aurelie@email.fr">email</a>.</p>
+                                <div class="consent-actions">
+                                    <button class="btn btn-gold" id="consentAccept" type="button">J'accepte, partager mes photos</button>
+                                    <button class="btn btn-outline" id="consentDecline" type="button">Non, merci</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Upload Zone (shown after consent) -->
+                        <div class="upload-dropzone" id="uploadDropzone" hidden>
                             <span class="upload-icon" aria-hidden="true">＋</span>
                             <p class="upload-title">Partagez vos photos du mariage</p>
                             <p class="upload-note">Déposez vos images ici ou choisissez-les depuis votre téléphone.</p>
