@@ -21,12 +21,12 @@
         ],
         'voyage': [],
         'mariage': [
-            { f: 'assets/images/mariage-1.jpeg', alt: 'Sidoine et Aurélie en tenue traditionnelle' },
-            { f: 'assets/images/mariage-2.jpeg', alt: 'Souvenir de la cérémonie de Sidoine et Aurélie' },
-            { f: 'assets/images/mariage-3.jpeg', alt: 'Sidoine et Aurélie, souvenir du mariage' },
-            { f: 'assets/images/mariage-4.jpeg', alt: 'Portrait de Sidoine et Aurélie en tenue de fête' },
-            { f: 'assets/images/mariage-5.jpeg', alt: 'Moment de fête du mariage de Sidoine et Aurélie' },
-            { f: 'assets/images/mariage-6.jpeg', alt: 'Souvenir de la célébration de Sidoine et Aurélie' }
+            { f: 'assets/images/mariage-1.webp', full: 'assets/images/mariage-1-full.webp', alt: 'Sidoine et Aurélie en tenue traditionnelle' },
+            { f: 'assets/images/mariage-2.webp', full: 'assets/images/mariage-2-full.webp', alt: 'Souvenir de la cérémonie de Sidoine et Aurélie' },
+            { f: 'assets/images/mariage-3.webp', full: 'assets/images/mariage-3-full.webp', alt: 'Sidoine et Aurélie, souvenir du mariage' },
+            { f: 'assets/images/mariage-4.webp', full: 'assets/images/mariage-4-full.webp', alt: 'Portrait de Sidoine et Aurélie en tenue de fête' },
+            { f: 'assets/images/mariage-5.webp', full: 'assets/images/mariage-5-full.webp', alt: 'Moment de fête du mariage de Sidoine et Aurélie' },
+            { f: 'assets/images/mariage-6.webp', full: 'assets/images/mariage-6-full.webp', alt: 'Souvenir de la célébration de Sidoine et Aurélie' }
         ]
     };
 
@@ -110,6 +110,7 @@
             image.dataset.full = t.full || t.f;
             image.alt = t.alt || 'Photo ajoutée par un invité';
             image.loading = 'lazy';
+            image.decoding = 'async';
             tile.appendChild(image);
             tile.addEventListener('click', function() { openLightbox(image); });
             galleryGrid.appendChild(tile);

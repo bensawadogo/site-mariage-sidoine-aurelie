@@ -81,6 +81,8 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
   Contenu : familles Téhua & Yameogo · dote de Sidoine & Aurélie · 26/09/2026 · repas à Cocody Angré.
 - **La Demande** : 5 photos HD dans la catégorie « demande » (`demande-1.webp` à `demande-5.webp`,
   1280 px, converties depuis les originaux WhatsApp — la n°1 est l'instant du oui).
+- **Photos du mariage** : six photos optimisées en WebP (`mariage-1.webp` à `mariage-6.webp`)
+  pour la grille mobile, avec des versions `-full.webp` chargées uniquement dans la lightbox.
 - Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
   `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
   « mariage » alimentée automatiquement par les photos ajoutées par les invités).
