@@ -20,7 +20,14 @@
             { f: 'assets/images/sidoine-aurelie-thumb.webp', full: 'assets/images/sidoine-aurelie.webp', alt: 'Sidoine & Aurélie — photo officielle des fiançailles' }
         ],
         'voyage': [],
-        'mariage': []
+        'mariage': [
+            { f: 'assets/images/mariage-1.jpeg', alt: 'Sidoine et Aurélie en tenue traditionnelle' },
+            { f: 'assets/images/mariage-2.jpeg', alt: 'Souvenir de la cérémonie de Sidoine et Aurélie' },
+            { f: 'assets/images/mariage-3.jpeg', alt: 'Sidoine et Aurélie, souvenir du mariage' },
+            { f: 'assets/images/mariage-4.jpeg', alt: 'Portrait de Sidoine et Aurélie en tenue de fête' },
+            { f: 'assets/images/mariage-5.jpeg', alt: 'Moment de fête du mariage de Sidoine et Aurélie' },
+            { f: 'assets/images/mariage-6.jpeg', alt: 'Souvenir de la célébration de Sidoine et Aurélie' }
+        ]
     };
 
     const UPLOAD_KEY = 'lm_gallery_uploads_v1';
@@ -50,10 +57,12 @@
     }
 
     let uploadedPhotos = loadUploadedPhotos();
-    galleryData.mariage = uploadedPhotos;
+    const officialMarriagePhotos = galleryData.mariage;
+    galleryData.mariage = officialMarriagePhotos.concat(uploadedPhotos);
 
     async function loadRemotePhotos() {
         if (!supabase) return;
+        const officialPhotos = galleryData.mariage.filter(photo => !photo.remote && !uploadedPhotos.includes(photo));
         const { data, error } = await supabase.storage.from(supabaseConfig.bucket).list('', {
             limit: 100,
             sortBy: { column: 'created_at', order: 'desc' }
@@ -65,7 +74,7 @@
             remote: true,
             path: file.name
         }));
-        galleryData.mariage = remotePhotos.concat(uploadedPhotos.filter(photo => !photo.remote));
+        galleryData.mariage = officialPhotos.concat(remotePhotos, uploadedPhotos.filter(photo => !photo.remote));
     }
 
     /* ===== GALLERY RENDER + FILTER ===== */
