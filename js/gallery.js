@@ -32,7 +32,7 @@
 
     const UPLOAD_KEY = 'lm_gallery_uploads_v1';
     const MAX_PHOTOS = 8;
-    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    const MAX_FILE_SIZE = 12 * 1024 * 1024;
     const supabaseConfig = window.SUPABASE_CONFIG || {};
     const supabase = supabaseConfig.url && supabaseConfig.anonKey && window.supabase
         ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey)
@@ -167,7 +167,6 @@
     const uploadStatus = $('#uploadStatus');
     const uploadDropzone = $('#uploadDropzone');
     const uploadNote = $('.upload-note');
-    const sharePhotosBtn = $('#sharePhotosBtn');
 
     if (supabase && uploadNote) {
         uploadNote.textContent = 'Elles seront visibles par tous les invités.';
@@ -211,7 +210,7 @@
                 return;
             }
             if (file.size > MAX_FILE_SIZE) {
-                reject('Chaque photo doit faire moins de 5 Mo.');
+                reject('Chaque photo doit faire moins de 12 Mo.');
                 return;
             }
             const reader = new FileReader();
@@ -243,11 +242,6 @@
 
     uploadBtn.addEventListener('click', function(event) {
         event.stopPropagation();
-        photoInput.click();
-    });
-
-    sharePhotosBtn.addEventListener('click', function() {
-        uploadDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
         photoInput.click();
     });
 

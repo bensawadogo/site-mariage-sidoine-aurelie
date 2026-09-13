@@ -257,6 +257,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .gallery-share{max-width:680px;margin:72px auto 10px;padding:48px 24px;text-align:center;border-top:1px solid rgba(197,163,92,.45);border-bottom:1px solid rgba(197,163,92,.25)}
 .gallery-share .section-title{margin-bottom:10px}
 .gallery-share-text{max-width:520px;margin:0 auto 24px;font-family:var(--serif);font-size:19px;font-style:italic;color:var(--muted)}
+.gallery-share-button{cursor:pointer}
 
 /* ===== RSVP ===== */
 .rsvp-section{background:var(--navy);color:var(--ivory)}

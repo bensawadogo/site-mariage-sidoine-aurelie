@@ -36,7 +36,7 @@
                                 <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
                                 Choisir mes photos
                             </button>
-                            <p class="upload-limit">Jusqu'à 8 photos · JPG, PNG, WebP ou GIF · 5 Mo maximum par photo</p>
+                            <p class="upload-limit">Jusqu'à 8 photos · JPG, PNG, WebP ou GIF · 12 Mo maximum par photo</p>
                         </div>
                         <div class="upload-preview" id="uploadPreview"></div>
                         <p class="upload-status" id="uploadStatus" role="status"></p>
@@ -69,10 +69,10 @@
                     <p class="section-kicker">Un souvenir à partager ?</p>
                     <h2 class="section-title" id="galleryShareTitle">Partagez vos souvenirs</h2>
                     <p class="gallery-share-text">Ajoutez les photos prises pendant la fête pour faire vivre cette galerie à tous les invités.</p>
-                    <button class="btn btn-gold" type="button" id="sharePhotosBtn">
+                    <label class="btn btn-gold gallery-share-button" for="photoInput" id="sharePhotosBtn">
                         <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
                         Ajouter mes souvenirs
-                    </button>
+                    </label>
                 </section>
             </div>
         </section>
@@ -92,6 +92,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
-    <script src="js/gallery.js?v=3"></script>
+    <script src="js/gallery.js?v=4"></script>
 </body>
 </html>
