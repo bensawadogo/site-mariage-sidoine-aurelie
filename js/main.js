@@ -11,13 +11,12 @@
     const introEnter = $('#introEnter');
     const musicBtn = $('#musicBtn');
 
-    /* Musique d'ambiance : essaie assets/audio/song.mp3 puis song.wav.
-       Le bouton n'apparaît que lorsqu'une piste est réellement chargée. */
+    /* Musique du mariage : le bouton n'apparaît que lorsque le morceau est chargé. */
     const audio = new Audio();
     audio.loop = true;
     audio.volume = 0.4;
     audio.preload = 'auto';
-    const MUSIC_SOURCES = ['assets/audio/song.mp3', 'assets/audio/song.wav'];
+    const MUSIC_SOURCES = ['assets/audio/emma-c-est-toi-d-abord.mpeg'];
     let musicIndex = 0;
     let musicReady = false;
 
@@ -36,15 +35,23 @@
     });
     tryLoadMusic();
 
-    if (introEnter && screenIntro) {
-        introEnter.addEventListener('click', () => {
+    function dismissIntro() {
+        if (!screenIntro) return;
             screenIntro.classList.add('hidden');
             document.body.style.overflow = 'auto';
             // Recalcule les positions des animations au scroll (intro = scroll verrouillé)
             if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-        });
+    }
+
+    if (introEnter && screenIntro) {
+        introEnter.addEventListener('click', dismissIntro);
         // Prevent scroll while intro visible
         document.body.style.overflow = 'hidden';
+    }
+
+    // Les liens restent utilisables même si l'invité passe directement à une section.
+    if (screenIntro) {
+        $$('a').forEach(link => link.addEventListener('click', dismissIntro));
     }
 
     if (musicBtn) {

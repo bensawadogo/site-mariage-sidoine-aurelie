@@ -23,6 +23,51 @@
         'mariage': []
     };
 
+    const UPLOAD_KEY = 'lm_gallery_uploads_v1';
+    const MAX_PHOTOS = 8;
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    const supabaseConfig = window.SUPABASE_CONFIG || {};
+    const supabase = supabaseConfig.url && supabaseConfig.anonKey && window.supabase
+        ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey)
+        : null;
+
+    function loadUploadedPhotos() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(UPLOAD_KEY)) || [];
+            return Array.isArray(saved) ? saved : [];
+        } catch (_) {
+            return [];
+        }
+    }
+
+    function saveUploadedPhotos(photos) {
+        try {
+            localStorage.setItem(UPLOAD_KEY, JSON.stringify(photos));
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    let uploadedPhotos = loadUploadedPhotos();
+    galleryData.mariage = uploadedPhotos;
+
+    async function loadRemotePhotos() {
+        if (!supabase) return;
+        const { data, error } = await supabase.storage.from(supabaseConfig.bucket).list('', {
+            limit: 100,
+            sortBy: { column: 'created_at', order: 'desc' }
+        });
+        if (error) throw error;
+        const remotePhotos = (data || []).filter(file => file.name).map(file => ({
+            f: supabase.storage.from(supabaseConfig.bucket).getPublicUrl(file.name).data.publicUrl,
+            alt: 'Photo ajoutée par un invité',
+            remote: true,
+            path: file.name
+        }));
+        galleryData.mariage = remotePhotos.concat(uploadedPhotos.filter(photo => !photo.remote));
+    }
+
     /* ===== GALLERY RENDER + FILTER ===== */
     const galleryGrid = $('#galleryGrid');
     const galleryEmpty = $('#galleryEmpty');
@@ -39,16 +84,25 @@
         const filtered = filter === 'all' ? tiles : tiles.filter(t => t.cat === filter);
 
         if (!filtered.length) {
-            galleryEmpty.style.display = 'block';
+            const empty = document.createElement('div');
+            empty.className = 'gallery-empty';
+            empty.textContent = filter === 'mariage'
+                ? 'Les photos ajoutées par les invités apparaîtront ici.'
+                : 'Les photos de cette catégorie arriveront bientôt…';
+            galleryGrid.appendChild(empty);
             return;
         }
-        galleryEmpty.style.display = 'none';
         filtered.forEach(t => {
             const tile = document.createElement('div');
             tile.className = 'gallery-tile';
             tile.dataset.cat = t.cat;
-            tile.innerHTML = '<img src="' + t.f + '" data-full="' + (t.full || t.f) + '" alt="' + t.alt + '" loading="lazy">';
-            tile.addEventListener('click', function() { openLightbox(tile.querySelector('img')); });
+            const image = document.createElement('img');
+            image.src = t.f;
+            image.dataset.full = t.full || t.f;
+            image.alt = t.alt || 'Photo ajoutée par un invité';
+            image.loading = 'lazy';
+            tile.appendChild(image);
+            tile.addEventListener('click', function() { openLightbox(image); });
             galleryGrid.appendChild(tile);
         });
     }
@@ -97,12 +151,162 @@
     });
 
     /* ===== UPLOAD ===== */
-    $('#uploadBtn').addEventListener('click', function() {
-        alert('Le partage de photos sera bientôt disponible. Merci de scanner le QR code à la réception le jour du mariage !');
+    const uploadBtn = $('#uploadBtn');
+    const photoInput = $('#photoInput');
+    const uploadPanel = $('#uploadPanel');
+    const uploadPreview = $('#uploadPreview');
+    const uploadStatus = $('#uploadStatus');
+    const uploadDropzone = $('#uploadDropzone');
+    const uploadNote = $('.upload-note');
+
+    if (supabase && uploadNote) {
+        uploadNote.textContent = 'Elles seront visibles par tous les invités.';
+    }
+
+    function showUploadStatus(message, isError) {
+        uploadStatus.textContent = message;
+        uploadStatus.classList.toggle('error', Boolean(isError));
+    }
+
+    function refreshUploadPreview() {
+        uploadPreview.innerHTML = '';
+        uploadedPhotos.forEach((photo, index) => {
+            const item = document.createElement('div');
+            item.className = 'upload-preview-item';
+            const image = document.createElement('img');
+            image.src = photo.f;
+            image.alt = photo.alt;
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'upload-remove';
+            remove.textContent = '×';
+            remove.setAttribute('aria-label', 'Supprimer cette photo');
+            remove.addEventListener('click', function() {
+                uploadedPhotos.splice(index, 1);
+                galleryData.mariage = uploadedPhotos;
+                saveUploadedPhotos(uploadedPhotos);
+                refreshUploadPreview();
+                renderGallery(currentFilter);
+                showUploadStatus('Photo supprimée de cet appareil.', false);
+            });
+            item.append(image, remove);
+            uploadPreview.appendChild(item);
+        });
+    }
+
+    function readPhoto(file) {
+        return new Promise((resolve, reject) => {
+            if (!file.type.startsWith('image/')) {
+                reject('Seules les images sont acceptées.');
+                return;
+            }
+            if (file.size > MAX_FILE_SIZE) {
+                reject('Chaque photo doit faire moins de 5 Mo.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => resolve({
+                f: reader.result,
+                alt: 'Photo ajoutée par un invité'
+            });
+            reader.onerror = () => reject('Impossible de lire cette photo.');
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async function uploadToSupabase(file) {
+        const safeName = file.name.toLowerCase().replace(/[^a-z0-9.-]+/g, '-');
+        const path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + safeName;
+        const { error } = await supabase.storage.from(supabaseConfig.bucket).upload(path, file, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: file.type
+        });
+        if (error) throw error;
+        return {
+            f: supabase.storage.from(supabaseConfig.bucket).getPublicUrl(path).data.publicUrl,
+            alt: 'Photo ajoutée par un invité',
+            remote: true,
+            path: path
+        };
+    }
+
+    uploadBtn.addEventListener('click', function(event) {
+        event.stopPropagation();
+        photoInput.click();
     });
+
+    async function handleSelectedFiles(files) {
+        files = Array.from(files || []);
+        if (!files.length) return;
+        const remaining = MAX_PHOTOS - uploadedPhotos.length;
+        if (remaining <= 0) {
+            showUploadStatus('Vous avez atteint la limite de 8 photos sur cet appareil.', true);
+            photoInput.value = '';
+            return;
+        }
+        const selected = files.slice(0, remaining);
+        const results = await Promise.allSettled(selected.map(file => supabase ? uploadToSupabase(file) : readPhoto(file)));
+        const validPhotos = results.filter(result => result.status === 'fulfilled').map(result => result.value);
+        const errors = results.filter(result => result.status === 'rejected').map(result => result.reason);
+        if (supabase) {
+            galleryData.mariage = galleryData.mariage.concat(validPhotos);
+        } else {
+            uploadedPhotos = uploadedPhotos.concat(validPhotos);
+            galleryData.mariage = uploadedPhotos;
+        }
+        if (!supabase && !saveUploadedPhotos(uploadedPhotos)) {
+            showUploadStatus('Le navigateur ne peut pas conserver ces photos. Essayez avec moins de fichiers.', true);
+        } else {
+            const visibility = supabase ? 'pour tous les invités.' : 'sur cet appareil.';
+            showUploadStatus(validPhotos.length + ' photo' + (validPhotos.length > 1 ? 's ajoutées' : ' ajoutée') + ' à la galerie ' + visibility, false);
+        }
+        if (errors.length) showUploadStatus(errors[0], true);
+        refreshUploadPreview();
+        renderGallery(currentFilter);
+        photoInput.value = '';
+    }
+
+    photoInput.addEventListener('change', function() {
+        handleSelectedFiles(photoInput.files);
+    });
+
+    uploadDropzone.addEventListener('click', function() {
+        photoInput.click();
+    });
+    ['dragenter', 'dragover'].forEach(function(eventName) {
+        uploadDropzone.addEventListener(eventName, function(event) {
+            event.preventDefault();
+            uploadDropzone.classList.add('is-dragging');
+        });
+    });
+    ['dragleave', 'drop'].forEach(function(eventName) {
+        uploadDropzone.addEventListener(eventName, function(event) {
+            event.preventDefault();
+            uploadDropzone.classList.remove('is-dragging');
+        });
+    });
+    uploadDropzone.addEventListener('drop', function(event) {
+        handleSelectedFiles(event.dataTransfer.files);
+    });
+
+    if (uploadedPhotos.length || supabase) {
+        refreshUploadPreview();
+    }
 
     /* ===== INIT ===== */
     renderGallery('all');
+
+    if (supabase) {
+        loadRemotePhotos().then(function() {
+            renderGallery(currentFilter);
+            refreshUploadPreview();
+            showUploadStatus('Galerie partagée activée.', false);
+        }).catch(function(error) {
+            console.error('Supabase gallery error:', error);
+            showUploadStatus('Galerie partagée indisponible. Vérifiez la configuration Supabase.', true);
+        });
+    }
 
     /* ===== GSAP REVEAL on gallery page ===== */
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {

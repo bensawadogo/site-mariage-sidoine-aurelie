@@ -97,9 +97,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     display:flex;align-items:center;justify-content:center;
     text-align:center;color:var(--ivory);
     transition:opacity 1s ease,visibility 1s ease;
+    pointer-events:none;
 }
 .screen-intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.intro-inner{padding:40px;max-width:600px}
+.intro-inner{padding:40px;max-width:600px;pointer-events:auto}
 .intro-kicker{font-family:var(--sans);letter-spacing:4px;font-size:12px;color:var(--gold-light);text-transform:uppercase;margin-bottom:16px}
 .intro-names{
     font-family:var(--script);font-size:clamp(50px,10vw,90px);
@@ -124,11 +125,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .nav-gallery-link{font-size:13px;letter-spacing:2px;color:var(--gold-light);transition:color .3s}
 .nav-gallery-link:hover{color:var(--ivory)}
 .nav.scrolled{
-    background:rgba(17,28,38,.92);backdrop-filter:blur(12px);
+    background:rgba(17,28,38,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
     padding:14px 40px;box-shadow:0 4px 30px rgba(0,0,0,.2);
 }
 .nav-slim{padding:18px 32px;background:transparent}
-.nav-slim.nav-scrolled{background:rgba(17,28,38,.92);backdrop-filter:blur(12px);padding:14px 32px}
+.nav-slim.nav-scrolled{background:rgba(17,28,38,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding:14px 32px}
 
 /* ===== HERO ===== */
 .hero{
@@ -207,8 +208,26 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* ===== GALLERY ===== */
 .gallery-section{background:linear-gradient(180deg,var(--ivory-deep),var(--ivory))}
+.gallery-title{font-size:clamp(32px,5vw,56px)}
 .gallery-intro{text-align:center;font-family:var(--serif);font-size:19px;font-style:italic;color:var(--muted);max-width:620px;margin:0 auto 32px}
 .gallery-actions{display:flex;flex-direction:column;align-items:center;gap:24px;margin-bottom:40px}
+.upload-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.upload-input-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.upload-panel{width:min(100%,760px);padding:14px;background:rgba(255,255,255,.7);border:1px solid var(--ivory-deep);border-radius:10px;text-align:center}
+.upload-dropzone{padding:28px 20px;border:1px dashed rgba(169,131,66,.7);border-radius:7px;background:rgba(247,243,236,.7);transition:var(--transition)}
+.upload-dropzone:hover,.upload-dropzone.is-dragging{border-color:var(--gold-dark);background:#fff;transform:translateY(-2px)}
+.upload-icon{display:flex;align-items:center;justify-content:center;width:42px;height:42px;margin:0 auto 8px;border:1px solid var(--gold);border-radius:50%;color:var(--gold-dark);font-size:28px;font-weight:300;line-height:1}
+.upload-title{font-family:var(--serif);font-size:22px;color:var(--navy);margin-bottom:2px}
+.upload-note{font-size:13px;color:var(--muted);margin-bottom:16px}
+.upload-select{margin:0 auto 10px}
+.upload-limit{font-size:11px;letter-spacing:.3px;color:var(--muted)}
+.upload-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.upload-preview-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--ivory-deep)}
+.upload-preview-item img{width:100%;height:100%;object-fit:cover}
+.upload-remove{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;background:rgba(17,28,38,.85);color:var(--ivory);font-size:20px;line-height:1}
+.upload-remove:hover{background:var(--gold-dark)}
+.upload-status{min-height:24px;margin-top:14px;color:var(--gold-dark);font-size:13px}
+.upload-status.error{color:#A33B3B}
 .qr-box{background:#fff;padding:20px;border-radius:10px;border:1px solid var(--ivory-deep);text-align:center}
 .qr-title{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 .qr-placeholder{width:120px;height:120px;background:var(--navy);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:20px;border-radius:6px;margin:0 auto}
@@ -273,6 +292,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     .gallery-grid-full{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
 }
 .rsvp-gallery-link{text-align:center;margin-top:32px}
+
+/* ===== PARTAGE PHOTOS INVITES ===== */
+.guest-gallery-section{background:var(--ivory-deep);text-align:center}
+.guest-gallery-content{display:flex;flex-direction:column;align-items:center}
+.guest-gallery-intro{max-width:580px;margin:0 auto 28px;font-family:var(--serif);font-size:19px;font-style:italic;color:var(--text)}
+.guest-gallery-section .btn{margin:0 auto}
 
 /* ===== PARALLAX DIVIDERS ===== */
 .parallax-divider{
@@ -370,6 +395,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     .music-fab{bottom:20px;right:20px}
     .pd-text-left{margin-left:6%}
     .pd-text-right{margin-right:6%}
+    .gallery-actions{gap:18px}
+    .gallery-filter{gap:6px}
+    .gfilter{padding:8px 14px;font-size:11px}
 }
 
 @media (max-width:480px){
@@ -385,6 +413,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     .cd-label{font-size:9px}
     .cd-sep{font-size:22px}
     .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .gallery-page .gallery-hero{padding-top:28px}
+    .gallery-intro{font-size:17px;padding:0 8px}
+    .gallery-actions>.btn{width:100%;max-width:320px}
+    .qr-box{width:100%;max-width:320px}
+    .upload-panel{padding:8px}
+    .upload-dropzone{padding:22px 12px 18px}
+    .upload-title{font-size:20px}
+    .upload-select{width:100%;max-width:280px}
+    .upload-preview{grid-template-columns:repeat(4,1fr);gap:7px}
     .btn{padding:13px 24px;font-size:12px}
 }
 
@@ -425,6 +462,7 @@ html,body{overflow-x:hidden}
     .section-kicker{font-size:24px}
     .section-title{font-size:clamp(16px,6vw,26px);letter-spacing:.5px;margin-bottom:12px}
     .fairepart-intro{font-size:16px;line-height:1.7}
+    .guest-gallery-intro{font-size:17px;padding:0 8px}
     .fairepart-card{padding:10px;border-radius:10px}
     .fairepart-actions{gap:10px;margin-top:24px}
     .footer{padding:48px 20px}

@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Italiana&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=8">
+    <link rel="stylesheet" href="css/style.css?v=9">
     <noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
-    <link rel="preload" as="image" href="assets/images/sidoine-aurelie.webp" media="(min-width: 769px)" fetchpriority="high">
-    <link rel="preload" as="image" href="assets/images/sidoine-aurelie-mobile.webp" media="(max-width: 768px)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/sidoine-aurelie.webp" media="(min-width: 769px)">
+    <link rel="preload" as="image" href="assets/images/sidoine-aurelie-mobile.webp" media="(max-width: 768px)">
     <!-- GSAP + ScrollTrigger pour effets immersifs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -20,7 +20,7 @@
 <body>
 
     <!-- ===== MUSIQUE (opt-in) ===== -->
-    <button class="music-fab" id="musicBtn" aria-label="Musique">
+    <button class="music-fab" id="musicBtn" aria-label="Lire la musique d'Emma — C'est toi d'abord">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
     </button>
 
@@ -167,6 +167,16 @@
             </div>
         </section>
 
+        <!-- ===== PARTAGE PHOTOS INVITES ===== -->
+        <section class="guest-gallery-section section-pad" id="partage-photos">
+            <div class="container-narrow guest-gallery-content">
+                <p class="section-kicker reveal">Vos souvenirs</p>
+                <h2 class="section-title reveal">Partagez vos photos du mariage</h2>
+                <p class="guest-gallery-intro reveal">Vous avez pris de belles photos pendant la fête ? Déposez-les dans notre galerie pour que tous les invités puissent les découvrir.</p>
+                <a href="galerie.html" class="btn btn-gold reveal">📷 Ajouter mes photos</a>
+            </div>
+        </section>
+
         <!-- ===== RSVP ===== -->
         <section class="rsvp-section section-pad" id="rsvp">
             <div class="container-narrow">
@@ -176,7 +186,7 @@
                 <form class="rsvp-form reveal" id="rsvpForm">
                     <input type="text" name="nom" placeholder="Votre nom complet" required>
                     <input type="number" name="invites" placeholder="Nombre d'invités" min="1" max="6" required>
-                    <select name="reponse" required>
+                    <select name="reponse" aria-label="Votre réponse" required>
                         <option value="" disabled selected>Je serai présent(e)</option>
                         <option value="oui">Avec grand plaisir</option>
                         <option value="non">Je ne pourrai malheureusement pas</option>
@@ -203,6 +213,6 @@
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=3"></script>
 </body>
 </html>

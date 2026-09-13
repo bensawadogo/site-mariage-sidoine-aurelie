@@ -30,14 +30,16 @@ Thème « élégance classique » navy / ivoire / or.
 - **Page admin** (`admin.html`, non liée depuis le site et `noindex`) : statistiques
   (réponses, invités confirmés, présences, déclinés), tableau des réponses,
   **export CSV** (compatible Excel FR) et effacement.
-- **Musique d'ambiance** : bouton flottant ; le site essaie `assets/audio/song.mp3`
-  (votre vrai morceau) puis retombe sur `assets/audio/song.wav` (boucle d'ambiance
-  générée). Le bouton n'apparaît que si une piste est réellement chargée.
+- **Musique du mariage** : bouton flottant utilisant le morceau d'Emma
+  `assets/audio/emma-c-est-toi-d-abord.mpeg`. Le bouton n'apparaît que si la piste est réellement chargée.
 - **Carte du lieu** : image statique OpenStreetMap stockée localement (`carte-cocody.webp`,
   épingle dorée incluse) — elle s'affiche toujours, même si les iframes Google/OSM sont
   bloqués — et elle est cliquable vers Google Maps + bouton d'itinéraire.
 - **Faire-part intégré** : la carte officielle de la dote est affichée dans la section
   « Le Faire-part » de la page d'accueil, avec téléchargement PDF (page + pied de page).
+- **Ajout de photos dans la galerie** : un invité peut sélectionner jusqu'à 8 images,
+  les prévisualiser, les supprimer et les retrouver dans la catégorie « Le Mariage ».
+  Les images sont conservées localement dans le navigateur de l'appareil utilisé.
 
 ## ▶️ Lancer le site en local
 
@@ -60,7 +62,7 @@ Pour une collecte centralisée sans serveur, remplacez l'enregistrement local pa
 
 ## 🎵 Remplacer la musique
 
-Déposez votre morceau ici : `assets/audio/song.mp3` (il sera utilisé en priorité).
+Le morceau d'Emma est installé ici : `assets/audio/emma-c-est-toi-d-abord.mpeg`.
 Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 
 ## 🖼️ Photos & faire-part
@@ -81,7 +83,29 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
   1280 px, converties depuis les originaux WhatsApp — la n°1 est l'instant du oui).
 - Les anciens placeholders ont été supprimés. Pour ajouter de nouvelles photos, déposez-les dans
   `assets/images/` et complétez `galleryData` dans `js/gallery.js` (catégories « voyage » et
-  « mariage » actuellement vides).
+  « mariage » alimentée automatiquement par les photos ajoutées par les invités).
+- Les photos ajoutées par les invités depuis la galerie ne sont pas envoyées sur Internet :
+  un backend ou un service externe (par exemple Supabase Storage, Firebase Storage, Cloudinary
+  ou un formulaire avec stockage) est nécessaire pour qu'elles soient visibles sur les appareils
+  de tous les invités.
+- **Connexion Supabase de la galerie** : remplissez directement `js/supabase-config.js` avec l'URL
+  du projet et la clé publique `anon`/`publishable`. N'y mettez jamais un token `sbp_...` ou une
+  clé `service_role`. Dans Supabase, créez un bucket public nommé `wedding-photos`, puis ajoutez
+  des politiques Storage autorisant la lecture et l'envoi anonymes :
+
+  ```sql
+  create policy "Public can read wedding photos"
+  on storage.objects for select to anon, authenticated
+  using (bucket_id = 'wedding-photos');
+
+  create policy "Public can upload wedding photos"
+  on storage.objects for insert to anon, authenticated
+  with check (bucket_id = 'wedding-photos');
+  ```
+
+  Une fois ces éléments renseignés, les photos ajoutées depuis la galerie sont partagées entre
+  les invités. L'autorisation d'envoi anonyme est pratique pour le mariage, mais peut être
+  renforcée plus tard avec une authentification ou un captcha.
 - **Bague sertie de diamants** : `assets/images/bague-mariage.webp` (800×800, recadrée + WebP),
   affichée dans le séparateur du programme et la carte « Cérémonie de la dote ». Source : photo
   « Diamond ring » de **Ernst Vikne**, Wikimedia Commons, **CC BY-SA 2.0** —
