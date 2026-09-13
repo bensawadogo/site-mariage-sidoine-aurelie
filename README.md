@@ -31,7 +31,7 @@ Thème « élégance classique » navy / ivoire / or.
   (réponses, invités confirmés, présences, déclinés), tableau des réponses,
   **export CSV** (compatible Excel FR) et effacement.
 - **Musique du mariage** : bouton flottant utilisant le morceau d'Emma
-  `assets/audio/emma-c-est-toi-d-abord.mpeg`. Le bouton n'apparaît que si la piste est réellement chargée.
+  `assets/audio/emma-c-est-toi-d-abord.mp3`. Le bouton reste disponible sur mobile et la lecture démarre après le clic de l'utilisateur.
 - **Carte du lieu** : image statique OpenStreetMap stockée localement (`carte-cocody.webp`,
   épingle dorée incluse) — elle s'affiche toujours, même si les iframes Google/OSM sont
   bloqués — et elle est cliquable vers Google Maps + bouton d'itinéraire.
@@ -62,7 +62,7 @@ Pour une collecte centralisée sans serveur, remplacez l'enregistrement local pa
 
 ## 🎵 Remplacer la musique
 
-Le morceau d'Emma est installé ici : `assets/audio/emma-c-est-toi-d-abord.mpeg`.
+Le morceau d'Emma est installé ici : `assets/audio/emma-c-est-toi-d-abord.mp3`.
 Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
 
 ## 🖼️ Photos & faire-part

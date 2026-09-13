@@ -11,12 +11,12 @@
     const introEnter = $('#introEnter');
     const musicBtn = $('#musicBtn');
 
-    /* Musique du mariage : le bouton n'apparaît que lorsque le morceau est chargé. */
+    /* Musique du mariage : le bouton reste disponible sur mobile, même avant le chargement. */
     const audio = new Audio();
     audio.loop = true;
     audio.volume = 0.4;
     audio.preload = 'auto';
-    const MUSIC_SOURCES = ['assets/audio/emma-c-est-toi-d-abord.mpeg'];
+    const MUSIC_SOURCES = ['assets/audio/emma-c-est-toi-d-abord.mp3'];
     let musicIndex = 0;
     let musicReady = false;
 
@@ -24,6 +24,7 @@
         if (musicIndex >= MUSIC_SOURCES.length) return; // aucune piste disponible
         audio.src = MUSIC_SOURCES[musicIndex];
         audio.load();
+        if (musicBtn) musicBtn.classList.add('show');
     }
     audio.addEventListener('canplaythrough', () => {
         if (!musicReady && musicBtn) musicBtn.classList.add('show');
@@ -56,7 +57,6 @@
 
     if (musicBtn) {
         musicBtn.addEventListener('click', () => {
-            if (!musicReady) return;
             if (audio.paused) {
                 audio.play().then(() => musicBtn.classList.add('playing')).catch(() => {
                     musicBtn.classList.remove('playing');
