@@ -158,6 +158,7 @@
     const uploadStatus = $('#uploadStatus');
     const uploadDropzone = $('#uploadDropzone');
     const uploadNote = $('.upload-note');
+    const sharePhotosBtn = $('#sharePhotosBtn');
 
     if (supabase && uploadNote) {
         uploadNote.textContent = 'Elles seront visibles par tous les invités.';
@@ -233,6 +234,11 @@
 
     uploadBtn.addEventListener('click', function(event) {
         event.stopPropagation();
+        photoInput.click();
+    });
+
+    sharePhotosBtn.addEventListener('click', function() {
+        uploadDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
         photoInput.click();
     });
 
