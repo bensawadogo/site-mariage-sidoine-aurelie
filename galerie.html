@@ -26,7 +26,7 @@
                 <p class="gallery-intro reveal">Après le mariage, cette galerie se remplira des photos de notre grand jour. Ajoutez vos souvenirs directement depuis votre téléphone.</p>
 
                 <div class="gallery-actions reveal">
-                    <input class="upload-input" id="photoInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple aria-label="Choisir des photos à ajouter à la galerie">
+                    <input class="upload-input" id="photoInput" type="file" accept="image/*" multiple aria-label="Choisir des photos à ajouter à la galerie">
                     <div class="upload-panel" id="uploadPanel">
                         <div class="upload-dropzone" id="uploadDropzone">
                             <span class="upload-icon" aria-hidden="true">＋</span>
@@ -69,10 +69,10 @@
                     <p class="section-kicker">Un souvenir à partager ?</p>
                     <h2 class="section-title" id="galleryShareTitle">Partagez vos souvenirs</h2>
                     <p class="gallery-share-text">Ajoutez les photos prises pendant la fête pour faire vivre cette galerie à tous les invités.</p>
-                    <label class="btn btn-gold gallery-share-button" for="photoInput" id="sharePhotosBtn">
+                    <button class="btn btn-gold gallery-share-button" type="button" id="sharePhotosBtn">
                         <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
                         Ajouter mes souvenirs
-                    </label>
+                    </button>
                 </section>
             </div>
         </section>

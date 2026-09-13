@@ -168,6 +168,7 @@
     const uploadStatus = $('#uploadStatus');
     const uploadDropzone = $('#uploadDropzone');
     const uploadNote = $('.upload-note');
+    const sharePhotosBtn = $('#sharePhotosBtn');
 
     if (supabase && uploadNote) {
         uploadNote.textContent = 'Elles seront visibles par tous les invités.';
@@ -176,6 +177,17 @@
     function showUploadStatus(message, isError) {
         uploadStatus.textContent = message;
         uploadStatus.classList.toggle('error', Boolean(isError));
+    }
+
+    function getUploadErrorMessage(error) {
+        const message = String(error && error.message ? error.message : error || '');
+        if (message.toLowerCase().includes('bucket not found')) {
+            return 'Le stockage photo n’est pas encore configuré. Créez le bucket public « wedding-photos » dans Supabase.';
+        }
+        if (message.toLowerCase().includes('row-level security') || message.toLowerCase().includes('not authorized')) {
+            return 'Supabase refuse l’envoi. Vérifiez la politique INSERT du bucket « wedding-photos ».';
+        }
+        return 'Envoi impossible. Vérifiez la configuration Supabase Storage.';
     }
 
     function refreshUploadPreview() {
@@ -243,6 +255,14 @@
 
     uploadBtn.addEventListener('click', function(event) {
         event.stopPropagation();
+        showUploadStatus('Sélectionnez une ou plusieurs photos dans votre galerie.', false);
+        photoInput.click();
+    });
+
+    sharePhotosBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        uploadDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showUploadStatus('Sélectionnez une ou plusieurs photos dans votre galerie.', false);
         photoInput.click();
     });
 
@@ -271,14 +291,17 @@
             const visibility = supabase ? 'pour tous les invités.' : 'sur cet appareil.';
             showUploadStatus(validPhotos.length + ' photo' + (validPhotos.length > 1 ? 's ajoutées' : ' ajoutée') + ' à la galerie ' + visibility, false);
         }
-        if (errors.length) showUploadStatus(errors[0], true);
+        if (errors.length) showUploadStatus(getUploadErrorMessage(errors[0]), true);
         refreshUploadPreview();
         renderGallery(currentFilter);
         photoInput.value = '';
     }
 
     photoInput.addEventListener('change', function() {
-        handleSelectedFiles(photoInput.files);
+        handleSelectedFiles(photoInput.files).catch(function(error) {
+            console.error('Photo upload error:', error);
+            showUploadStatus(getUploadErrorMessage(error), true);
+        });
     });
 
     uploadDropzone.addEventListener('click', function() {

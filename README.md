@@ -108,6 +108,9 @@ Pour régénérer l'ambiance WAV : `python tools/generate_ambient.py`.
   Une fois ces éléments renseignés, les photos ajoutées depuis la galerie sont partagées entre
   les invités. L'autorisation d'envoi anonyme est pratique pour le mariage, mais peut être
   renforcée plus tard avec une authentification ou un captcha.
+
+  Si la galerie affiche « Bucket not found », ouvrez **Storage** dans Supabase, créez le bucket
+  public `wedding-photos`, puis rechargez le site. La clé publique et le code sont déjà configurés.
 - **Bague sertie de diamants** : `assets/images/bague-mariage.webp` (800×800, recadrée + WebP),
   affichée dans le séparateur du programme et la carte « Cérémonie de la dote ». Source : photo
   « Diamond ring » de **Ernst Vikne**, Wikimedia Commons, **CC BY-SA 2.0** —
