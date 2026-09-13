@@ -305,6 +305,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .guest-gallery-content{display:flex;flex-direction:column;align-items:center}
 .guest-gallery-intro{max-width:580px;margin:0 auto 28px;font-family:var(--serif);font-size:19px;font-style:italic;color:var(--text)}
 .guest-gallery-section .btn{margin:0 auto}
+.home-photo-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.home-upload-status{min-height:24px;margin:12px auto 0;color:var(--gold-dark);font-size:13px}
 
 /* ===== PARALLAX DIVIDERS ===== */
 .parallax-divider{

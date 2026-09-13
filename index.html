@@ -173,10 +173,13 @@
                 <p class="section-kicker reveal">Vos souvenirs</p>
                 <h2 class="section-title reveal">Partagez vos photos du mariage</h2>
                 <p class="guest-gallery-intro reveal">Vous avez pris de belles photos pendant la fête ? Déposez-les dans notre galerie pour que tous les invités puissent les découvrir.</p>
-                <a href="galerie.html#uploadPanel" class="btn btn-gold reveal">
+                <input class="home-photo-input" id="homePhotoInput" type="file" accept="image/*" multiple aria-label="Choisir les photos du mariage">
+                <button class="btn btn-gold reveal" id="homeUploadBtn" type="button">
                     <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
                     Ajouter mes photos
-                </a>
+                </button>
+                <p class="home-upload-status" id="homeUploadStatus" role="status"></p>
+                <a href="galerie.html#uploadPanel" class="btn btn-ghost reveal">Voir toutes les photos</a>
             </div>
         </section>
 
@@ -219,6 +222,8 @@
         </div>
     </footer>
 
-    <script src="js/main.js?v=4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/main.js?v=5"></script>
 </body>
 </html>

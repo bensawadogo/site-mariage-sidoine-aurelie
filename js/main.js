@@ -10,6 +10,39 @@
     const screenIntro = $('#screenIntro');
     const introEnter = $('#introEnter');
     const musicBtn = $('#musicBtn');
+    const homeUploadBtn = $('#homeUploadBtn');
+    const homePhotoInput = $('#homePhotoInput');
+    const homeUploadStatus = $('#homeUploadStatus');
+
+    if (homeUploadBtn && homePhotoInput) {
+        homeUploadBtn.addEventListener('click', () => homePhotoInput.click());
+        homePhotoInput.addEventListener('change', async () => {
+            const files = Array.from(homePhotoInput.files || []).slice(0, 8);
+            const config = window.SUPABASE_CONFIG || {};
+            const client = config.url && config.anonKey && window.supabase
+                ? window.supabase.createClient(config.url, config.anonKey)
+                : null;
+            if (!files.length) return;
+            if (!client) {
+                homeUploadStatus.textContent = 'Ouvrez la galerie pour configurer le partage des photos.';
+                homePhotoInput.value = '';
+                return;
+            }
+            homeUploadStatus.textContent = 'Envoi de vos photos en cours...';
+            const results = await Promise.allSettled(files.map(file => {
+                const name = file.name.toLowerCase().replace(/[^a-z0-9.-]+/g, '-');
+                const path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + name;
+                return client.storage.from(config.bucket).upload(path, file, {
+                    cacheControl: '3600', upsert: false, contentType: file.type
+                });
+            }));
+            const failed = results.find(result => result.status === 'rejected' || result.value.error);
+            homeUploadStatus.textContent = failed
+                ? 'Envoi impossible. Vérifiez le stockage Supabase.'
+                : files.length + ' photo' + (files.length > 1 ? 's envoyées' : ' envoyée') + ' pour tous les invités.';
+            homePhotoInput.value = '';
+        });
+    }
 
     /* Musique du mariage : le bouton reste disponible sur mobile, même avant le chargement. */
     const audio = new Audio();
