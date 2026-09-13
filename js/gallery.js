@@ -330,6 +330,15 @@
     /* ===== INIT ===== */
     renderGallery('all');
 
+    if (window.location.hash === '#uploadPanel') {
+        window.setTimeout(function() {
+            uploadPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            uploadPanel.classList.add('upload-panel-focus');
+            showUploadStatus('Touchez « Choisir mes photos » pour ouvrir la galerie de votre téléphone.', false);
+            window.setTimeout(function() { uploadPanel.classList.remove('upload-panel-focus'); }, 2200);
+        }, 250);
+    }
+
     if (supabase) {
         loadRemotePhotos().then(function() {
             renderGallery(currentFilter);
