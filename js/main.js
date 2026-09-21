@@ -6,6 +6,54 @@
     const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
     const format2 = (n) => (n < 10 ? '0' + n : '' + n);
 
+    /* ===== IMAGE COMPRESSION (client-side) ===== */
+    function compressImage(file, options = {}) {
+        return new Promise((resolve) => {
+            const {
+                maxWidth = 1920,
+                maxHeight = 1080,
+                quality = 0.8,
+                format = 'image/jpeg'
+            } = options;
+
+            if (!file.type.startsWith('image/')) {
+                resolve(file);
+                return;
+            }
+            if (file.size < 500 * 1024) {
+                resolve(file);
+                return;
+            }
+
+            const img = new Image();
+            img.onload = () => {
+                const ratio = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
+                const newWidth = Math.round(img.width * ratio);
+                const newHeight = Math.round(img.height * ratio);
+
+                const canvas = document.createElement('canvas');
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                canvas.toBlob((blob) => {
+                    if (!blob) {
+                        resolve(file);
+                        return;
+                    }
+                    const ext = format === 'image/png' ? 'png' : 'jpg';
+                    const baseName = file.name.replace(/\.[^.]+$/, '');
+                    const newName = `${baseName}-compressed.${ext}`;
+                    const compressedFile = new File([blob], newName, { type: format, lastModified: Date.now() });
+                    resolve(compressedFile);
+                }, format, quality);
+            };
+            img.onerror = () => resolve(file);
+            img.src = URL.createObjectURL(file);
+        });
+    }
+
     /* ===== SCREEN INTRO ===== */
     const screenIntro = $('#screenIntro');
     const introEnter = $('#introEnter');
@@ -28,19 +76,82 @@
                 homePhotoInput.value = '';
                 return;
             }
-            homeUploadStatus.textContent = 'Envoi de vos photos en cours...';
-            const results = await Promise.allSettled(files.map(file => {
-                const name = file.name.toLowerCase().replace(/[^a-z0-9.-]+/g, '-');
-                const path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + name;
-                return client.storage.from(config.bucket).upload(path, file, {
-                    cacheControl: '3600', upsert: false, contentType: file.type
-                });
-            }));
-            const failed = results.find(result => result.status === 'rejected' || result.value.error);
-            homeUploadStatus.textContent = failed
-                ? 'Envoi impossible. Vérifiez le stockage Supabase.'
-                : files.length + ' photo' + (files.length > 1 ? 's envoyées' : ' envoyée') + ' pour tous les invités.';
+
+            // UI: progress bar
+            homeUploadStatus.innerHTML = '<div class="upload-progress"><div class="upload-progress-bar" style="width:0%"></div></div><span class="upload-progress-text">Préparation...</span>';
+
+            const updateProgress = (done, total, currentFile = '') => {
+                const pct = Math.round((done / total) * 100);
+                const bar = homeUploadStatus.querySelector('.upload-progress-bar');
+                const txt = homeUploadStatus.querySelector('.upload-progress-text');
+                if (bar) bar.style.width = pct + '%';
+                if (txt) txt.textContent = `${done}/${total} ${currentFile ? '· ' + currentFile : ''}`;
+            };
+
+            // Compression séquentielle (évite surcharge CPU)
+            const compressedFiles = [];
+            for (let i = 0; i < files.length; i++) {
+                updateProgress(i, files.length, `Compression ${files[i].name}`);
+                compressedFiles.push(await compressImage(files[i]));
+            }
+
+            // Queue d'upload avec concurrence limitée (3) + retry exponentiel
+            const CONCURRENCY = 3;
+            const MAX_RETRIES = 3;
+            const BASE_DELAY = 1000; // 1s, 2s, 4s
+
+            let running = 0;
+            let index = 0;
+            const results = [];
+            const errors = [];
+
+            const uploadOne = async (file, fileIndex) => {
+                let attempt = 0;
+                while (attempt <= MAX_RETRIES) {
+                    try {
+                        const name = file.name.toLowerCase().replace(/[^a-z0-9.-]+/g, '-');
+                        const path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + name;
+                        const { error } = await client.storage.from(config.bucket).upload(path, file, {
+                            cacheControl: '3600', upsert: false, contentType: file.type
+                        });
+                        if (error) throw error;
+                        return { success: true, fileIndex };
+                    } catch (err) {
+                        attempt++;
+                        if (attempt > MAX_RETRIES) {
+                            return { success: false, fileIndex, error: err.message };
+                        }
+                        // Exponential backoff + jitter
+                        const delay = BASE_DELAY * Math.pow(2, attempt - 1) + Math.random() * 500;
+                        await new Promise(r => setTimeout(r, delay));
+                    }
+                }
+            };
+
+            const next = async () => {
+                if (index >= compressedFiles.length) return;
+                const fileIndex = index++;
+                running++;
+                updateProgress(index - 1, compressedFiles.length, `Envoi ${compressedFiles[fileIndex].name}`);
+                const result = await uploadOne(compressedFiles[fileIndex], fileIndex);
+                results[fileIndex] = result;
+                if (!result.success) errors.push(result);
+                running--;
+                updateProgress(index, compressedFiles.length);
+                await next();
+            };
+
+            // Lance CONCURRENCY workers
+            const workers = Array.from({ length: Math.min(CONCURRENCY, compressedFiles.length) }, () => next());
+            await Promise.all(workers);
+
             homePhotoInput.value = '';
+
+            if (errors.length) {
+                homeUploadStatus.innerHTML = `<span class="upload-error">${errors.length} échec${errors.length > 1 ? 's' : ''} sur ${files.length}. Réessayez ou réduisez la taille des photos.</span>`;
+            } else {
+                homeUploadStatus.textContent = `${files.length} photo${files.length > 1 ? 's' : ''} envoyée${files.length > 1 ? 's' : ''} pour tous les invités.`;
+            }
         });
     }
 

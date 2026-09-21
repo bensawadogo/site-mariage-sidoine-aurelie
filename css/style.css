@@ -140,7 +140,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .hero-bg{
     position:absolute;inset:0;
     background:
-        linear-gradient(180deg,rgba(17,28,38,.66) 0%,rgba(17,28,38,.30) 42%,rgba(17,28,38,.30) 60%,rgba(17,28,38,.74) 100%),
+        linear-gradient(180deg,rgba(17,28,38,.95) 0%,rgba(17,28,38,.85) 35%,rgba(17,28,38,.85) 65%,rgba(17,28,38,.97) 100%),
         url('../assets/images/hero-couple.webp') center 28%/cover no-repeat;
     z-index:0;
 }
@@ -158,8 +158,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .hero-divider{display:flex;align-items:center;gap:14px}
 .hero-divider i{display:flex;align-items:center}
 .hero-divider i::before{content:'✦';color:var(--gold);font-size:.25em}
-.hero-date{font-family:var(--serif);font-size:clamp(18px,2.5vw,24px);color:var(--ivory-deep);letter-spacing:4px;margin:28px 0 12px}
-.hero-sub{font-family:var(--serif);font-style:italic;font-size:18px;color:rgba(247,243,236,.75);margin-bottom:40px}
+.hero-date{font-family:var(--serif);font-size:clamp(18px,2.5vw,24px);color:var(--ivory);letter-spacing:4px;margin:28px 0 12px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ivory);margin-bottom:40px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .hero-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2}
 .hero-scroll span{display:block;width:24px;height:40px;border:1px solid rgba(247,243,236,.4);border-radius:14px;position:relative}
@@ -342,6 +342,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .home-photo-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .home-upload-status{min-height:24px;margin:12px auto 0;color:var(--gold-dark);font-size:13px}
+.upload-progress{width:100%;max-width:360px;height:6px;background:var(--ivory-deep);border-radius:3px;overflow:hidden;margin:0 auto 6px}
+.upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:3px;transition:width .3s ease}
+.upload-progress-text{display:block;text-align:center;font-size:12px;color:var(--muted)}
+.upload-error{color:#A33B3B;font-weight:500}
 
 /* ===== PARALLAX DIVIDERS ===== */
 .parallax-divider{
@@ -447,7 +451,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @media (max-width:480px){
     .hero-bg{
         background:
-            linear-gradient(180deg,rgba(17,28,38,.66) 0%,rgba(17,28,38,.30) 42%,rgba(17,28,38,.30) 60%,rgba(17,28,38,.74) 100%),
+            linear-gradient(180deg,rgba(17,28,38,.98) 0%,rgba(17,28,38,.92) 30%,rgba(17,28,38,.92) 70%,rgba(17,28,38,.99) 100%),
             url('../assets/images/hero-couple.webp') center 25%/cover no-repeat;
     }
     .hero-names{gap:0}
@@ -467,6 +471,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     .upload-select{width:100%;max-width:280px}
     .upload-preview{grid-template-columns:repeat(4,1fr);gap:7px}
     .btn{padding:13px 24px;font-size:12px}
+    .hero-date,
+    .hero-sub{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.9),0 0 4px rgba(0,0,0,.8);font-weight:500}
 }
 
 /* ===== FAIRE-PART (DOTE) ===== */
